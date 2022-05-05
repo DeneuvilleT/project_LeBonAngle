@@ -1,0 +1,11 @@
+.products {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   justify-content: flex-start;
+   margin: auto;
+}
+
+.products h1{
+   margin: 50px 100px;
+}

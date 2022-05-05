@@ -1,0 +1,25 @@
+.form {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   justify-content: flex-start;
+   margin: auto;
+}
+
+.form h1 {
+   margin: 50px 100px !important;
+}
+
+.form form {
+   display: flex;
+   flex-direction: column;
+   padding: 100px 100px;
+   border: groove gray 2px;
+   border-radius: 20%;
+   margin: 100px auto;
+   text-align: center;
+}
+
+.form input, textarea{
+   margin: 10px auto;
+}
