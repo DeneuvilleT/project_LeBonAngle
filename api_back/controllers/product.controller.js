@@ -1,4 +1,6 @@
 import Product from "../models/product.model.js";
+import fs from 'fs';
+import request from "request";
 
 
 export const home = async (req, res, next) => {
@@ -14,6 +16,22 @@ export const home = async (req, res, next) => {
    };
 };
 
+export const testPicture = () => {
+   const pickPicture = (url, path, callback) => {
+      request.head(url, (err, res, body) => {
+         request(url)
+            .pipe(fs.createWriteStream(path))
+            .on('close', callback)
+      });
+   };
+
+   const url = "https://www.tutorialkart.com/wp-content/uploads/2017/09/node-fs.png"
+   const path = './public/img/image.png';
+
+   pickPicture(url, path, () => {
+      console.log('Picture download');
+   });
+};
 
 export const postItem = async (req, res, next) => {
 
