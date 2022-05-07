@@ -4,11 +4,11 @@ import Product from "../models/product.model.js";
 
 export const home = async (req, res, next) => {
    try {
-      const item = await Product.getAllProducts();
-      if (!item[0].length) {
+      const items = await Product.getAllProducts();
+      if (!items[0].length) {
          throw Error;
       } else {
-         res.status(200).send(item)
+         res.status(200).send(items)
       };
    } catch (error) {
       console.log(error);
@@ -17,12 +17,9 @@ export const home = async (req, res, next) => {
 
 export const pickPicture = async (req, res, next) => {
 
-   
    if (!req.files || Object.keys(req.files).length) {
       res.status(400);
    };
-
-   console.log(req.files);
    
    req.files.image.mv(`public/images/${req.files.image.name}`, (error) => {
       
@@ -39,7 +36,6 @@ export const pickPicture = async (req, res, next) => {
       msg: `L'image ${req.files.image.name} a été chargée.`,
       url: req.files.image.name,
    });
-
 };
 
 export const postItem = async (req, res, next) => {
@@ -67,7 +63,6 @@ export const postItem = async (req, res, next) => {
    };
 };
 
-
 export const loadOneItem = async (req, res, next) => {
    const id = req.params.id;
    try {
@@ -75,7 +70,7 @@ export const loadOneItem = async (req, res, next) => {
       if (!item[0].length) {
          throw Error;
       } else {
-         console.log(item);
+         res.status(200).send(item);
       };
    } catch (error) {
       console.log(error);

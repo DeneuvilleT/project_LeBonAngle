@@ -4,18 +4,45 @@ import styles from '../Form/form.module.css';
 import axios from 'axios';
 
 function Form() {
-
+  
   const { url } = useContext(GlobalContext);
+
+  // Ajout d'une image *********************
+  const [picture, setPicture] = useState(null);
+  
+  
+  const pick = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("image", inputFile.current.files[0]);
+  
+    try {
+      const res = await axios.post(`${url}/form/api/v1/picture`, formData) 
+      .then((response) => {
+        console.log(response);
+        })
+      .catch((error) => {
+          console.log(error);
+      });
+  
+    } catch (error) {
+      console.log(error);
+    };
+  };
+  
   
   // Ajout d'un article ********************
   const title = useRef();
   const description = useRef();
   const quantity = useRef();
   const price = useRef();
-  const imgURL = useRef();
+  const inputFile = useRef();
 
-  const post = async () => {
 
+  const post = async (e) => {
+    e.preventDefault()
+    const noPhoto = 'api_back/public/images/no_photo.png';
     try {
       const res = await axios.post(`${url}/form/api/v1/product/add`, {
 
@@ -23,49 +50,15 @@ function Form() {
         description: description.current.value,
         quantity: quantity.current.value,
         price: price.current.value,
-        img: imgURL.current.value,
+        img: 'imgURL.current.value',
 
-      })
-      .then( (response) => {
-          console.log(response);
-        })
-      .catch( (error) => {
-          console.log(error);
       });
 
       } catch (error) {
       console.log(error);
     };
-
   };
 
-  // Ajout d'une image *********************
-  const [picture, setPicture] = useState(null);
-  const inputFile = useRef();
-  
-
-  const pick = async () => {
-
-    const formData = new FormData();
-    formData.append("image", inputFile.current.files[0]);
-
-    try {
-      const res = await axios.post(`${url}/form/api/v1/picture`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        }
-      })
-      .then((response) => {
-        console.log(response);
-        })
-      .catch((error) => {
-          console.log(error);
-      });
-
-    } catch (error) {
-      console.log(error);
-    };
-  };
 
 
 
@@ -76,7 +69,7 @@ function Form() {
 
       <h1>Formulaire</h1>
 
-      <form onSubmit={() => { post(); pick() }} encType="multipart/form-data" >
+      <form onSubmit={(e) => { post(e) }} >
 
         <label htmlFor="title">Titre de l'annonce</label>
         <input type="text" ref={title} />

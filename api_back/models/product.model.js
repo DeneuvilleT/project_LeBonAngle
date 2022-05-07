@@ -16,26 +16,23 @@ class Product {
 
    static async getAllProducts() {
       const sql = `
-      SELECT * FROM product`;
+      SELECT product.id, title, description, post_date, quantity, price, img, firstname, lastname, name
+      FROM product INNER JOIN user ON product.id_user = user.id
+      INNER JOIN category ON product.id_category = category.id ORDER BY post_date DESC`;
 
       const [query] = await pool.execute(sql);
       return [query];
    };
 
    static async getOneProduct(dataId) {
-      const sql1 = `
-      SELECT title, description, quantity, post_date, img, price FROM product WHERE product.id = ?`;
-      const sql2=
-      `SELECT lastname, firstname, adress FROM product JOIN user 
-      ON product.id_user = user.id WHERE product.id = ?`;
-      const sql3=
-      `SELECT name FROM product JOIN category 
-      ON product.id_category = category.id WHERE product.id = ?`;
+      const sql = `
+      SELECT product.id, title, description, post_date, quantity, price, img, firstname, lastname, name
+      FROM product INNER JOIN user ON product.id_user = user.id
+      INNER JOIN category ON product.id_category = category.id WHERE product.id = ?`;
 
-      const [query1] = await pool.execute(sql1, [dataId]);
-      const [query2] = await pool.execute(sql2, [dataId]);
-      const [query3] = await pool.execute(sql3, [dataId]);
-      return [query1,query2, query3];
+
+      const [query] = await pool.execute(sql, [dataId]);
+      return [query];
    };
 
    static async addSaveItem(sql, datas) {

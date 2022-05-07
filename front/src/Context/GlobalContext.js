@@ -9,7 +9,7 @@ const GlobalContextProvider = (props) => {
 
   
    return (
-      <GlobalContext.Provider value={{ url }}>
+      <GlobalContext.Provider value={{ url, setUrl }}>
          {props.children}
       </GlobalContext.Provider>
    );

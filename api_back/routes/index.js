@@ -7,6 +7,7 @@ const router = express.Router();
 router.get("/api/v1/load_products", home);
 router.get("/api/v1/load_users", users);
 router.get("/api/v1/product/:id", loadOneItem);
+router.get("/api/v1/admin/", home);
 
 
 router.post("/form/add", pickPicture);

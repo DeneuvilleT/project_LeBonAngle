@@ -9,15 +9,37 @@
    background-color: rgb(235, 235, 235);
 }
 
+.products h1 {
+   font-size: 1.8rem;
+   margin: 0 auto;
+}
+
+.products h1+hr {
+   margin-top: 30px;
+   width: 80%;
+}
+
 /* Details */
 .products section:nth-child(1) {
    display: flex;
    flex-direction: column;
    flex-wrap: wrap;
-   align-items: center;
+   align-items: baseline;
    margin: 45px 20px 45px 0;
    width: 20%;
+   min-width: 400px;
    border-right: 1px gray groove;
+}
+
+.products section:nth-child(1) article aside {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   flex-wrap: wrap;
+   font-size: 1.3rem;
+   min-width: 80%;
+   width: 80%;
+   margin: 40px auto;
 }
 
 
@@ -42,6 +64,7 @@
 
    /* Width */
    width: 27%;
+   height: auto;
    margin: 20px;
    padding: 20px;
    border-radius: 20px;
@@ -57,8 +80,17 @@
    width: 90%;
    margin: auto;
    height: auto;
+   max-height: 80%;
+   max-width: 80%;
 }
 
-.products button {
-   width: 25%;
+.products a {
+   text-decoration: underline;
+   color: blue;
+   text-align: right;
+}
+
+.products a:hover {
+   color: crimson;
+   cursor: pointer;
 }
