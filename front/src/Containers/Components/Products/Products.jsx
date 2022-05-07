@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GlobalContext } from '../../../Context/GlobalContext';
-import styles from '../Products/products.module.css';
+import css from '../Products/Products.module.css';
 
 function Products() {
 
-  const {url} = useContext(GlobalContext)
-  const [data, setDatas] = useState([]);
+  const { url } = useContext(GlobalContext)
+  const [datas, setDatas] = useState([]);
 
   useEffect(() => {
     recupProducts()
   }, [])
-  
+
 
   const recupProducts = async () => {
     try {
@@ -24,11 +24,37 @@ function Products() {
     };
   };
 
+  
+
 
   return (
-    
-    <main className={styles.products} id='mainProducts' role='main'>
-      <h1>{console.log(data)}Home page</h1>
+
+    <main className={css.products} role='main'>
+
+      <section >
+        <h1>Home page</h1>
+        <article>
+          <p>/* Détails */</p>
+        </article>
+      </section>
+
+      <section >
+      {
+        datas?.length && datas.map((item, index) => {
+
+          return (
+            <article key={item.id} >
+              <h2>{item.title}</h2>
+              <img src={item.img} alt={item.title} />
+              <p>Quantité : {item.quantity}</p>
+              <p>Postée le : {item.post_date}</p>
+              <p>Prix : <em>{item.price} €</em></p>
+              <button>Details</button>
+            </article>
+          )
+        })
+        }
+      </section>
     </main>
   );
 };

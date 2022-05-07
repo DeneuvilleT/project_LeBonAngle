@@ -6,7 +6,7 @@ import styles from '../Admin/admin.module.css';
 function Admin() {
 
   const { url } = useContext(GlobalContext)
-  const [data, setDatas] = useState([]);
+  const [datas, setDatas] = useState([]);
 
   useEffect(() => {
     recupUsers()
@@ -27,8 +27,34 @@ function Admin() {
 
 
   return (
-    <main id='mainAdmin' role='main' className={styles.admin}>
-      <h1>{console.log(data)}Panneau d'administration</h1>
+    <main role='main' className={styles.admin}>
+      <h1>{console.log(datas)}Panneau d'administration</h1>
+      <div>
+        <table>
+
+          <thead>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Adress</th>
+          </thead>
+
+          <tbody>
+            {
+              datas?.length && datas.map((item, index) => {
+
+                return (
+                  <tr key={item.id} >
+                    <td>{item.lastname}</td>
+                    <td>{item.firstname}</td>
+                    <td>{item.adress}</td>
+                  </tr>
+                )
+              })
+            }
+          </tbody>
+          
+        </table>
+      </div>
     </main>
   );
 };

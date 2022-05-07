@@ -1,6 +1,5 @@
 import Product from "../models/product.model.js";
-import fs from 'fs';
-import request from "request";
+
 
 
 export const home = async (req, res, next) => {
@@ -9,7 +8,6 @@ export const home = async (req, res, next) => {
       if (!item[0].length) {
          throw Error;
       } else {
-         res.set('Access-Control-Allow-Origin', '*')
          res.status(200).send(item)
       };
    } catch (error) {
@@ -17,21 +15,31 @@ export const home = async (req, res, next) => {
    };
 };
 
-export const testPicture = () => {
-   const pickPicture = (url, path, callback) => {
-      request.head(url, (err, res, body) => {
-         request(url)
-            .pipe(fs.createWriteStream(path))
-            .on('close', callback)
-      });
+export const pickPicture = async (req, res, next) => {
+
+   
+   if (!req.files || Object.keys(req.files).length) {
+      res.status(400);
    };
 
-   const url = "https://www.tutorialkart.com/wp-content/uploads/2017/09/node-fs.png"
-   const path = './public/img/image.png';
-
-   pickPicture(url, path, () => {
-      console.log('Picture download');
+   console.log(req.files);
+   
+   req.files.image.mv(`public/images/${req.files.image.name}`, (error) => {
+      
+      if (error) {
+         res.json({
+            status: 500,
+            msg: "Echec de l'enregistrement",
+         });
+      };
    });
+
+   res.json({
+      status: 200,
+      msg: `L'image ${req.files.image.name} a été chargée.`,
+      url: req.files.image.name,
+   });
+
 };
 
 export const postItem = async (req, res, next) => {
@@ -42,15 +50,18 @@ export const postItem = async (req, res, next) => {
       quantity: req.body.quantity,
       img: req.body.img,
       price: req.body.price,
-      user: req.body.user,
-      category: req.body.category
+      // user: req.body.user,
+      // category: req.body.category
    };
 
-   const query = "INSERT INTO `product`(`id`, `title`, `description`, `quantity`, `post_date`, `img`, `price`, `id_user`, `id_category`) VALUES (NULL,?,?,?,NOW(),?,?,?,?)";
+   const query = "INSERT INTO `product`(`id`, `title`, `description`, `quantity`, `post_date`, `img`, `price`, `id_user`, `id_category`) VALUES (NULL,?,?,?,NOW(),?,?,1,1)";
 
    try {
       await Product.addSaveItem(query, datas);
-      console.log(req.body);
+      res.json({
+         status: 200,
+         msg: "Sucess !"
+      })
    } catch (error) {
       console.log(error);
    };
@@ -71,7 +82,6 @@ export const loadOneItem = async (req, res, next) => {
    };
 };
 
-
 export const updateItem = async (req, res, next) => {
    const id = req.params.id;
 
@@ -85,7 +95,8 @@ export const updateItem = async (req, res, next) => {
       category: req.body.category
    };
 
-   const query = `UPDATE product SET title = ?, description = ?, quantity = ?, post_date = NOW(), img = ?, price = ?, id_user = ?, id_category = ? WHERE product.id = ${id}` ;
+   const query = `UPDATE product SET title = ?, description = ?, quantity = ?, post_date = 
+   NOW(), img = ?, price = ?, id_user = ?, id_category = ? WHERE product.id = ${id}`;
 
    try {
       await Product.addSaveItem(query, datas);

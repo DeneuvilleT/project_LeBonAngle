@@ -7,7 +7,6 @@ export const users = async (req, res, next) => {
       if (!item[0].length) {
          throw Error;
       } else {
-         res.set('Access-Control-Allow-Origin', '*')
          res.status(200).send(item)
       };
    } catch (error) {
