@@ -96,7 +96,9 @@
 }
 
 .form section:nth-child(2) form input,
-.form section:nth-child(2) form textarea {
+.form section:nth-child(2) form textarea,
+.form section:nth-child(2) form option,
+.form section:nth-child(2) form select {
    font-family: 'Times New Roman', Times, serif;
    font-size: 1.1rem;
    margin: 20px auto;

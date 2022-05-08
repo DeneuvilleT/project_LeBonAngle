@@ -1,11 +1,13 @@
 import express from 'express';
-import { home, loadOneItem, postItem, pickPicture, updateItem, deleteItem } from '../controllers/product.controller.js';
+import { home, loadOneItem, postItem, pickPicture, updateItem, deleteItem, category } from '../controllers/product.controller.js';
 import { users } from '../controllers/user.controller.js';
 
 const router = express.Router();
 
 router.get("/api/v1/load_products", home);
 router.get("/api/v1/load_users", users);
+router.get("/api/v1/load_category", category);
+
 router.get("/api/v1/product/:id", loadOneItem);
 router.get("/api/v1/admin/", home);
 router.get("/api/v1/admin/delete/:id", deleteItem);

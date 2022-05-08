@@ -15,6 +15,19 @@ export const home = async (req, res, next) => {
    };
 };
 
+export const category = async (req, res, next) => {
+   try {
+      const items = await Product.getAllCategory();
+      if (!items[0].length) {
+         throw Error;
+      } else {
+         res.status(200).send(items)
+      };
+   } catch (error) {
+      console.log(error);
+   };
+};
+
 export const pickPicture = async (req, res, next) => {
 
    // if (!req.files || Object.keys(req.files).length) {
@@ -46,11 +59,11 @@ export const postItem = async (req, res, next) => {
       quantity: req.body.quantity,
       img: req.body.img,
       price: req.body.price,
-      // user: req.body.user,
-      // category: req.body.category
+      user: 1,
+      category: req.body.category,
    };
 
-   const query = "INSERT INTO `product`(`id`, `title`, `description`, `quantity`, `post_date`, `img`, `price`, `id_user`, `id_category`) VALUES (NULL,?,?,?,NOW(),?,?,1,1)";
+   const query = "INSERT INTO `product`(`id`, `title`, `description`, `quantity`, `post_date`, `img`, `price`, `id_user`, `id_category`) VALUES (NULL,?,?,?,NOW(),?,?,?,?)";
 
    try {
       await Product.addSaveItem(query, datas);
@@ -84,12 +97,12 @@ export const updateItem = async (req, res, next) => {
       description: req.body.description,
       quantity: req.body.quantity,
       price: req.body.price,
+      category: req.body.category
       // img: req.body.img,
-      // category: req.body.category
    };
 
    const query = `UPDATE product SET title = ?, description = ?, quantity = ?, post_date = 
-   NOW(), price = ? WHERE product.id = ${id}`;
+   NOW(), price = ?, id_category = ? WHERE product.id = ${id}`;
 
    try {
       await Product.addSaveItem(query, datas);

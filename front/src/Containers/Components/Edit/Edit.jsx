@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { Link } from 'react-router-dom';
@@ -7,17 +7,18 @@ import styles from '../Edit/edit.module.css';
 
 function Edit() {
 
-
    const { id } = useParams();
    const { url } = useContext(GlobalContext);
    const [detailItem, setDetail] = useState({});
+   const [datas, setDatas] = useState([]);
+
+   
+   // *****************************************
+   // Initialisation **************************
 
    useEffect(() => {
       dataItem()
    }, []);
-
-  // *****************************************
-  // Initialisation **************************
    
    const dataItem = async () => {
       try {
@@ -36,7 +37,25 @@ function Edit() {
          console.log(error);
       };
    };
+   
+   // *****************************************
+   // Récupératrion Category ******************
 
+   useEffect(() => {
+      recupDataCategory()
+   }, [])
+
+   const recupDataCategory = async () => {
+      try {
+         const res = await fetch(`${url}/api/v1/load_category`);
+         const resJson = await res.json();
+         console.log(resJson[0]);
+         setDatas(datas => [...datas, ...resJson[0]]);
+
+      } catch (error) {
+         console.log(error);
+      };
+   };
 
    // *****************************************
    // Mise à jour *****************************
@@ -45,8 +64,8 @@ function Edit() {
    const description = useRef();
    const quantity = useRef();
    const price = useRef();
+   const category = useRef();
    const inputFile = useRef();
-
 
    const update = async () => {
       try {
@@ -55,8 +74,8 @@ function Edit() {
             title: title.current.value,
             description: description.current.value,
             quantity: quantity.current.value,
+            category: category.current.value,
             price: price.current.value,
-
          });
 
       } catch (error) {
@@ -89,6 +108,18 @@ function Edit() {
 
                <label htmlFor="price">Prix : <span>(entre 0 et 5000)</span></label>
                <input min="0" max="5000" type="number" placeholder={detailItem.price} ref={price} />
+
+               <select ref={category}>
+                  {
+                     datas?.length && datas.map((item) => {
+                        return (
+                           <Fragment key={item.id}>
+                              <option value={item.id}>{item.name}</option>
+                           </Fragment>
+                        )
+                     })
+                  }
+               </select>
                
                <button type="submit">Mettre à jour votre annonce</button>
 

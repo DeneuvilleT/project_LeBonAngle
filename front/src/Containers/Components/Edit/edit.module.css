@@ -95,7 +95,9 @@
 }
 
 .edit section:nth-child(2) form input,
-.edit section:nth-child(2) form textarea {
+.edit section:nth-child(2) form textarea,
+.edit section:nth-child(2) form option,
+.edit section:nth-child(2) form select {
    color: black;
    font-family: 'Times New Roman', Times, serif;
    font-size: 1.1rem;

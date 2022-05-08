@@ -24,6 +24,13 @@ class Product {
       return [query];
    };
 
+   static async getAllCategory() {
+      const sql = `SELECT * FROM category`;
+
+      const [query] = await pool.execute(sql);
+      return [query];
+   };
+
    static async getOneProduct(dataId) {
       const sql = `
       SELECT product.id, title, description, post_date, quantity, price, img, firstname, lastname, name

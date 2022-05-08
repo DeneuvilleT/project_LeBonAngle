@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import styles from '../Form/form.module.css';
 import axios from 'axios';
@@ -8,11 +8,33 @@ function Form() {
 
   const { url } = useContext(GlobalContext);
   const [imgFile, setImgFile] = useState('');
+  const [datas, setDatas] = useState([]);
+
   const inputFile = useRef();
   const title = useRef();
   const description = useRef();
   const quantity = useRef();
+  const category = useRef();
   const price = useRef();
+
+  // *****************************************
+  // Récupératrion Category ******************
+
+  useEffect(() => {
+    recupDataCategory()
+  },[])
+
+  const recupDataCategory = async () => {
+    try {
+      const res = await fetch(`${url}/api/v1/load_category`);
+      const resJson = await res.json();
+      console.log(resJson[0]);
+      setDatas(datas => [...datas, ...resJson[0]]);
+
+    } catch (error) {
+      console.log(error);
+    };
+  };
 
 
   // *****************************************
@@ -49,6 +71,7 @@ function Form() {
         title: title.current.value,
         description: description.current.value,
         quantity: quantity.current.value,
+        category: category.current.value,
         price: price.current.value,
         img: imgFile !== '' ? imgFile : noPhoto,
       });
@@ -80,6 +103,18 @@ function Form() {
 
           <label htmlFor="price">Prix : <span>(entre 0 et 5000)</span></label>
           <input min="0" max="5000" type="number" ref={price} />
+
+          <select ref={category}>
+          {
+            datas?.length && datas.map((item) => {
+              return (
+                <Fragment key={item.id}>
+                  <option value={item.id}>{item.name}</option>
+                </Fragment>
+              )
+            })
+          }
+          </select>
 
           <label htmlFor='sampleFile' >Image</label>
           <input onInput={() => { pick() }} ref={inputFile} type="file" />
