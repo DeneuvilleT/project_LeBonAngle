@@ -19,6 +19,9 @@ function Admin() {
   }, []);
 
 
+  // *****************************************
+  // Récupératrion Utilisateurs **************
+
   const recupUsers = async () => {
     try {
       const res = await fetch(`${url}/api/v1/load_users`);
@@ -30,6 +33,9 @@ function Admin() {
       console.log(error);
     };
   };
+
+  // *****************************************
+  // Récupératrion Objets ********************
 
   const detailAdmin = async () => {
     try {
@@ -43,6 +49,9 @@ function Admin() {
     };
   };
 
+  // *****************************************
+  // Suppression Item ************************
+  
   const poke = async (id) => {
     try {
       const res = await fetch(`${url}/api/v1/admin/delete/${id}`);
@@ -52,6 +61,8 @@ function Admin() {
       console.log(error);
     };
   };
+
+
 
   return (
     <main role='main' className={styles.admin}>
@@ -92,10 +103,10 @@ function Admin() {
                   <hr />
                   <p>Date de publication : {item.post_date}</p>
                   <hr />
-                  <p><strong>Prix de vente : </strong>{item.price} €</p>
+                  <p><strong>Prix de vente : </strong><strong style={{ color: 'red' }}>{item.price} €</strong></p>
                   <hr />
 
-                  <Link to={'/edit'}>mettre à jour l'annonce</Link>
+                  <Link to={`/edit/${item.id}`}>mettre à jour l'annonce</Link>
 
                   <form onSubmit={() => { poke(item.id) }}>
                     <button type='submit' >supprimer</button>

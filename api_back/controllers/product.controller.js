@@ -17,12 +17,12 @@ export const home = async (req, res, next) => {
 
 export const pickPicture = async (req, res, next) => {
 
-   if (!req.files || Object.keys(req.files).length) {
-      res.status(400);
-   };
-   
+   // if (!req.files || Object.keys(req.files).length) {
+   //    res.status(400);
+   // };
+
    req.files.image.mv(`public/images/${req.files.image.name}`, (error) => {
-      
+
       if (error) {
          res.json({
             status: 500,
@@ -83,14 +83,13 @@ export const updateItem = async (req, res, next) => {
       title: req.body.title,
       description: req.body.description,
       quantity: req.body.quantity,
-      img: req.body.img,
       price: req.body.price,
-      user: req.body.user,
-      category: req.body.category
+      // img: req.body.img,
+      // category: req.body.category
    };
 
    const query = `UPDATE product SET title = ?, description = ?, quantity = ?, post_date = 
-   NOW(), img = ?, price = ?, id_user = ?, id_category = ? WHERE product.id = ${id}`;
+   NOW(), price = ? WHERE product.id = ${id}`;
 
    try {
       await Product.addSaveItem(query, datas);

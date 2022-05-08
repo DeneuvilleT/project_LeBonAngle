@@ -1,50 +1,48 @@
 import React, { useContext, useRef, useState } from 'react';
 import { GlobalContext } from '../../../Context/GlobalContext';
-
 import styles from '../Form/form.module.css';
 import axios from 'axios';
+
 
 function Form() {
 
   const { url } = useContext(GlobalContext);
+  const [imgFile, setImgFile] = useState('');
+  const inputFile = useRef();
+  const title = useRef();
+  const description = useRef();
+  const quantity = useRef();
+  const price = useRef();
 
-  // Ajout d'une image *********************
-  const [picture, setPicture] = useState(null);
 
+  // *****************************************
+  // Ajout d'une image ***********************
+  
+  const pick = async () => {
 
-  const pick = async (e) => {
-    e.preventDefault();
-
-    const noPhoto = 'api_back/public/images/no_photo.png';
     const formData = new FormData();
     formData.append("image", inputFile.current.files[0]);
-
+  
     try {
       const res = await axios.post(`${url}/form/api/v1/picture`, formData)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        .then(res => {
 
+          setImgFile(`${url}/public/images/${res.data.url}`);
+  
+        });
     } catch (error) {
       console.log(error);
     };
   };
 
 
-  // Ajout d'un article ********************
-  const title = useRef();
-  const description = useRef();
-  const quantity = useRef();
-  const price = useRef();
-  const inputFile = useRef();
-  const imgURL = useRef();
+  // *****************************************
+  // Ajout d'un article **********************
+  
+  const post = async () => {
 
+    const noPhoto = `${url}/public/images/no_photo.png`;
 
-  const post = async (e) => {
-    e.preventDefault()
     try {
       const res = await axios.post(`${url}/form/api/v1/product/add`, {
 
@@ -52,10 +50,8 @@ function Form() {
         description: description.current.value,
         quantity: quantity.current.value,
         price: price.current.value,
-        img: imgURL.current.value,
-
+        img: imgFile !== '' ? imgFile : noPhoto,
       });
-
     } catch (error) {
       console.log(error);
     };
@@ -71,33 +67,27 @@ function Form() {
       </section>
 
       <section>
-        <form onSubmit={(e) => { post(e) }} >
+        <form onSubmit={() => { post() }} >
 
-          <label htmlFor="title">Titre de l'annonce</label>
+          <label htmlFor="title">Titre de l'annonce :</label>
           <input type="text" ref={title} />
 
-          <label htmlFor='description'>Description</label>
-          <textarea ref={description} cols="30" rows="10"></textarea>
+          <label htmlFor='description'>Description :</label>
+          <textarea ref={description} ></textarea>
 
-          <label htmlFor="quantity">Quantité</label>
+          <label htmlFor="quantity">Quantité :</label>
           <input min="1" type="number" ref={quantity} />
 
-          <label htmlFor="price">Prix</label>
-          <input type="text" ref={price} />
+          <label htmlFor="price">Prix : <span>(entre 0 et 5000)</span></label>
+          <input min="0" max="5000" type="number" ref={price} />
 
-          <label htmlFor="imgURL">Image</label>
-          <input ref={imgURL} type="url" />
-
-          {/* <label htmlFor='sampleFile' >Image</label> */}
-          {/* <input ref={inputFile} onInput={() => {
-          console.log(inputFile.current.files[0])
-        }} type="file" /> */}
+          <label htmlFor='sampleFile' >Image</label>
+          <input onInput={() => { pick() }} ref={inputFile} type="file" />
 
           <input type="submit" value='Envoyer' />
 
         </form>
       </section>
-
     </main>
   );
 };

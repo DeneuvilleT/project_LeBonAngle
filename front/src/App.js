@@ -16,7 +16,7 @@ function App() {
           <Route path='/' element={<Products />} />
           <Route path='/form' element={<Form />} />
           <Route path='/admin' element={<Admin />} />
-          <Route path='/edit' element={<Edit />} />
+          <Route path='/edit/:id' element={<Edit />} />
         </Routes>
       </GlobalContextProvider>
     </>

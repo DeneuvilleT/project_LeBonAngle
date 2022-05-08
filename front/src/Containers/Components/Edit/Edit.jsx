@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -6,6 +7,8 @@ import styles from '../Edit/edit.module.css';
 
 function Edit() {
 
+
+   const { id } = useParams();
    const { url } = useContext(GlobalContext);
    const [detailItem, setDetail] = useState({});
 
@@ -13,23 +16,20 @@ function Edit() {
       dataItem()
    }, []);
 
-   // Init **********************************************************
-   const dataItem = async (id) => {
+  // *****************************************
+  // Initialisation **************************
+   
+   const dataItem = async () => {
       try {
          const res = await fetch(`${url}/api/v1/product/${id}`);
          const resJson = await res.json();
 
-         let date = resJson[0][0].post_date;
-         date = new Date();
-
          setDetail({
-            id: resJson[0][0].product.id,
+            id: resJson[0][0].id,
             title: resJson[0][0].title,
-            descritpion: resJson[0][0].description,
+            description: resJson[0][0].description,
             category: resJson[0][0].name,
             quantity: resJson[0][0].quantity,
-            post_date: date.toLocaleDateString(),
-            nickName: `${resJson[0][0].lastname} ${resJson[0][0].firstname}`,
             price: resJson[0][0].price,
          });
       } catch (error) {
@@ -37,16 +37,27 @@ function Edit() {
       };
    };
 
-   // Update **********************************************************
+
+   // *****************************************
+   // Mise à jour *****************************
+   
    const title = useRef();
    const description = useRef();
    const quantity = useRef();
    const price = useRef();
    const inputFile = useRef();
 
-   const update = async (id) => {
+
+   const update = async () => {
       try {
-         const res = await axios.put(`${url}/api/v1/edit/update/${id}`);
+         const res = await axios.put(`${url}/api/v1/edit/update/${id}`,{
+
+            title: title.current.value,
+            description: description.current.value,
+            quantity: quantity.current.value,
+            price: price.current.value,
+
+         });
 
       } catch (error) {
          console.log(error);
@@ -64,29 +75,24 @@ function Edit() {
             <Link to={'/admin'}>panneau d'administration</Link>
          </section>
 
-         <section>       
-               <form onSubmit={() => { update(detailItem.id) }} >
+         <section>
+            <form onSubmit={() => { update() }} >
 
-                  <label htmlFor="title">Titre de l'annonce</label>
-                  <input type="text" ref={title} value={detailItem.title} />
+               <label htmlFor="title">Titre de l'annonce :</label>
+               <input type="text" ref={title} placeholder={detailItem.title} />
 
-                  <label htmlFor='description'>Description</label>
-                  <textarea ref={description} cols="30" rows="10" value={detailItem.description} ></textarea>
+               <label htmlFor='description'>Description :</label>
+               <textarea ref={description} placeholder={detailItem.description} ></textarea>
 
-                  <label htmlFor="quantity">Quantité</label>
-                  <input min="1" type="number" value={detailItem.quantity} ref={quantity} />
+               <label htmlFor="quantity">Quantité :</label>
+               <input min="1" type="number" placeholder={detailItem.quantity} ref={quantity} />
 
-                  <label htmlFor="price">Prix</label>
-                  <input type="text" value={detailItem.price} ref={price} />
+               <label htmlFor="price">Prix : <span>(entre 0 et 5000)</span></label>
+               <input min="0" max="5000" type="number" placeholder={detailItem.price} ref={price} />
+               
+               <button type="submit">Mettre à jour votre annonce</button>
 
-                  {/* <label htmlFor='sampleFile' >Image</label> */}
-                  {/* <input ref={inputFile} onInput={() => {
-                  console.log(inputFile.current.files[0])
-                  }} type="file" /> */}
-
-                  <input type="submit" value='Mettre à jour votre annonce.' />
-
-               </form>
+            </form>
          </section>
 
       </main>

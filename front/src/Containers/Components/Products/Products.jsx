@@ -5,7 +5,6 @@ import css from '../Products/products.module.css';
 function Products() {
 
   const { url } = useContext(GlobalContext)
-
   const [datas, setDatas] = useState([]);
   const [detailItem, setDetail] = useState({});
 
@@ -13,6 +12,10 @@ function Products() {
   useEffect(() => {
     recupProducts()
   }, [])
+
+
+  // *****************************************
+  // Récupératrion Objets ********************
 
   const recupProducts = async () => {
     try {
@@ -26,10 +29,12 @@ function Products() {
     };
   };
 
+
+  // *****************************************
+  // Récupératrion un Objet ******************
+  
   const detail = async (id) => {
-
     try {
-
       const res = await fetch(`${url}/api/v1/product/${id}`);
       const resJson = await res.json();
 
@@ -51,6 +56,7 @@ function Products() {
     };
   };
 
+  
   return (
 
     <main className={css.products} role='main'>
