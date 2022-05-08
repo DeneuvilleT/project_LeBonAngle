@@ -79,7 +79,6 @@ export const loadOneItem = async (req, res, next) => {
 
 export const updateItem = async (req, res, next) => {
    const id = req.params.id;
-
    const datas = {
       title: req.body.title,
       description: req.body.description,
@@ -95,7 +94,23 @@ export const updateItem = async (req, res, next) => {
 
    try {
       await Product.addSaveItem(query, datas);
+      res.json({
+         status: 200,
+         msg: `Les informations ont bien été mis à jour.`,
+      });
+   } catch (error) {
+      console.log(error);
+   };
+};
 
+export const deleteItem = async (req, res, next) => {
+   const id = req.params.id;
+   try {
+      await Product.deleteThisItem(id);
+      res.json({
+         status: 200,
+         msg: `L'article a bien été supprimé.`,
+      });
    } catch (error) {
       console.log(error);
    };

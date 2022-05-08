@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GlobalContext } from '../../../Context/GlobalContext';
-import css from '../Products/Products.module.css';
+import css from '../Products/products.module.css';
 
 function Products() {
 
@@ -10,11 +10,9 @@ function Products() {
   const [detailItem, setDetail] = useState({});
 
 
-
   useEffect(() => {
     recupProducts()
   }, [])
-
 
   const recupProducts = async () => {
     try {
@@ -27,7 +25,6 @@ function Products() {
       console.log(error);
     };
   };
-
 
   const detail = async (id) => {
 
@@ -54,11 +51,11 @@ function Products() {
     };
   };
 
-
   return (
 
     <main className={css.products} role='main'>
 
+      {/* Details Items */}
       <section >
         <h1>Home page</h1>
         <hr />
@@ -74,7 +71,7 @@ function Products() {
                 <h2>{detailItem.title}</h2>
                 <p><strong>Description : </strong><br />{detailItem.descritpion}</p>
                 <p><strong>Quantité : </strong>{detailItem.quantity}</p>
-                  <p><strong>Postée le : </strong>{detailItem.post_date} par : {detailItem.nickName}</p>
+                <p><strong>Postée le : </strong>{detailItem.post_date} par : {detailItem.nickName}</p>
                 <p><strong>Catégorie : </strong>{detailItem.category}</p>
                 <p><strong>Prix : <em style={{ color: 'red' }}>{detailItem.price} €</em></strong></p>
               </aside>

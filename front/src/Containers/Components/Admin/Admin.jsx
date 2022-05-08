@@ -1,17 +1,19 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { GlobalContext } from '../../../Context/GlobalContext';
+import { Link } from 'react-router-dom';
 import styles from '../Admin/admin.module.css';
-
 
 function Admin() {
 
-  const { url } = useContext(GlobalContext)
-  const [datas, setDatas] = useState([]);
+  const { url } = useContext(GlobalContext);
+  const [datasUsers, setDatas] = useState([]);
   const [listItems, setList] = useState([]);
+
 
   useEffect(() => {
     recupUsers()
   }, []);
+
   useEffect(() => {
     detailAdmin()
   }, []);
@@ -29,17 +31,10 @@ function Admin() {
     };
   };
 
-
-
   const detailAdmin = async () => {
-
     try {
-
       const res = await fetch(`${url}/api/v1/admin/`);
       const resJson = await res.json();
-      console.log(resJson);
-      // let date = resJson[0][0].post_date;
-      // date = new Date();
 
       setList(listItems => [...listItems, ...resJson[0]]);
 
@@ -48,16 +43,26 @@ function Admin() {
     };
   };
 
+  const poke = async (id) => {
+    try {
+      const res = await fetch(`${url}/api/v1/admin/delete/${id}`);
+      const resJson = await res.json();
 
+    } catch (error) {
+      console.log(error);
+    };
+  };
 
   return (
     <main role='main' className={styles.admin}>
+
+      {/* Block Users */}
       <section>
         <h1>Panneau d'administration</h1>
         <hr />
         <article>
           {
-            datas?.length && datas.map((item) => {
+            datasUsers?.length && datasUsers.map((item) => {
               return (
                 <aside key={item.id} >
                   <p><strong>{item.lastname}</strong></p>
@@ -72,19 +77,34 @@ function Admin() {
         </article>
       </section>
 
+
+      {/* Block List */}
       <section>
         <article>
-          {/* {
-              listItems?.length && listItems.map((item) => {
-                return (
-                  <article key={item.id} >
-                    <p>{item.lastname}</p>
-                    <p>{item.firstname}</p>
-                    <p>{item.adress}</p>
-                  </article>
-                )
-              })
-            } */}
+          {
+            listItems?.length && listItems.map((item) => {
+              return (
+                <aside key={item.id} >
+
+                  <p><strong>{item.title}</strong></p>
+                  <hr />
+                  <p>Vendeur : {item.lastname}</p>
+                  <hr />
+                  <p>Date de publication : {item.post_date}</p>
+                  <hr />
+                  <p><strong>Prix de vente : </strong>{item.price} €</p>
+                  <hr />
+
+                  <Link to={'/edit'}>mettre à jour l'annonce</Link>
+
+                  <form onSubmit={() => { poke(item.id) }}>
+                    <button type='submit' >supprimer</button>
+                  </form>
+
+                </aside>
+              )
+            })
+          }
         </article>
       </section>
     </main>

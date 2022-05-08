@@ -30,13 +30,18 @@ class Product {
       FROM product INNER JOIN user ON product.id_user = user.id
       INNER JOIN category ON product.id_category = category.id WHERE product.id = ?`;
 
-
       const [query] = await pool.execute(sql, [dataId]);
       return [query];
    };
 
    static async addSaveItem(sql, datas) {
       const [query] = await pool.execute(sql, [...Object.values(datas)]);
+      return query;
+   };
+
+   static async deleteThisItem(dataId) {
+      const sql = `DELETE FROM product WHERE id = ?`;
+      const query = await pool.execute(sql, [dataId]);
       return query;
    };
 };
