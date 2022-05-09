@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GlobalContext } from '../../../Context/GlobalContext';
+import { ReactComponent as BinEmpty } from '../../../../src/svg/logo.svg';
 import css from '../Products/products.module.css';
 
 function Products() {
@@ -70,6 +71,7 @@ function Products() {
 
           {!detailItem.title ? (
             <>
+              <BinEmpty/>
             </>
           ) : (
             <>

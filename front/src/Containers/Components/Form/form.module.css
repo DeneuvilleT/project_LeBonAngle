@@ -29,33 +29,21 @@
    margin: 45px 20px 45px 0;
    width: 25%;
    min-width: 400px;
-   border-right: 1px gray groove;
+   border-right: 1px rgb(170, 170, 170) groove;
 }
 
-.form section:nth-child(1) article aside {
+.form section:nth-child(1) svg {
    display: flex;
    flex-direction: column;
    flex-wrap: wrap;
    justify-content: center;
-   background-color: white;
    box-sizing: content-box;
 
    /* Width */
-   width: 90%;
-   height: auto;
-   margin: 20px auto;
-   padding: 20px;
-   border-radius: 20px;
-   box-shadow: 0 14px 20px rgb(0, 0, 0, 0.12),
-      0 14px 20px rgba(0, 0, 0, 0.24);
-   ;
+   width: 40%;
+   margin: 320px 0;
+   padding: 0;
 }
-
-.form section:nth-child(1) article aside p {
-   margin: 0;
-}
-
-
 
 
 
@@ -75,7 +63,8 @@
    flex-wrap: wrap;
    justify-content: center;
    align-items: center;
-   background-color: white;
+   background-color: rgb(117, 117, 117);
+   color: white;
    box-sizing: content-box;
 
    /* Width */
@@ -111,7 +100,6 @@
 }
 
 .form textarea {
-
    width: 770px;
    height: 250px;
    resize: none;

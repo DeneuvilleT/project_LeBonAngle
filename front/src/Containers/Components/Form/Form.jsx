@@ -1,4 +1,5 @@
 import React, { Fragment, useContext, useEffect, useRef, useState } from 'react';
+import { ReactComponent as BinEmpty } from '../../../../src/svg/logo.svg';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import styles from '../Form/form.module.css';
 import axios from 'axios';
@@ -87,6 +88,7 @@ function Form() {
       <section>
         <h1>Formulaire</h1>
         <hr />
+        <BinEmpty />
       </section>
 
       <section>
@@ -104,6 +106,7 @@ function Form() {
           <label htmlFor="price">Prix : <span>(entre 0 et 5000)</span></label>
           <input min="0" max="5000" type="number" ref={price} />
 
+          <label htmlFor="category">Catégorie :</label>
           <select ref={category}>
           {
             datas?.length && datas.map((item) => {

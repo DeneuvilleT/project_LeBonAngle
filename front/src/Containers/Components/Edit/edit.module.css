@@ -32,30 +32,18 @@
    border-right: 1px gray groove;
 }
 
-.edit section:nth-child(1) article aside {
+.edit section:nth-child(1) svg {
    display: flex;
    flex-direction: column;
    flex-wrap: wrap;
    justify-content: center;
-   background-color: white;
    box-sizing: content-box;
 
    /* Width */
-   width: 90%;
-   height: auto;
-   margin: 20px auto;
-   padding: 20px;
-   border-radius: 20px;
-   box-shadow: 0 14px 20px rgb(0, 0, 0, 0.12),
-      0 14px 20px rgba(0, 0, 0, 0.24);
-   ;
+   width: 40%;
+   margin: 320px 0;
+   padding: 0;
 }
-
-.edit section:nth-child(1) article aside p {
-   margin: 0;
-}
-
-
 
 
 
@@ -75,18 +63,18 @@
    flex-wrap: wrap;
    justify-content: center;
    align-items: center;
-   background-color: white;
+   background-color: rgb(117, 117, 117);
+   color: white;
    box-sizing: content-box;
 
    /* Width */
    width: 90%;
    min-width: 800px;
-   height: 800px;
+   height: 1000px;
    margin: 20px auto;
    border-radius: 20px;
    box-shadow: 0 14px 20px rgb(0, 0, 0, 0.12),
       0 14px 20px rgba(0, 0, 0, 0.24);
-
 }
 
 .edit section:nth-child(2) form label {
@@ -104,14 +92,13 @@
    margin: 20px auto;
    border-radius: 5px;
    box-shadow: 0 14px 20px rgb(0, 0, 0, 0.12),
-   0 14px 20px rgba(0, 0, 0, 0.24);
+      0 14px 20px rgba(0, 0, 0, 0.24);
    border: none;
    width: 25%;
    padding: 10px;
 }
 
 .edit textarea {
-
    width: 770px;
    height: 250px;
    resize: none;

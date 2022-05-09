@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState, Fragment } from 'react';
+import { ReactComponent as BinEmpty } from '../../../../src/svg/logo.svg';
 import { useParams } from 'react-router-dom';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { Link } from 'react-router-dom';
@@ -57,6 +58,7 @@ function Edit() {
       };
    };
 
+   
    // *****************************************
    // Mise à jour *****************************
    
@@ -92,6 +94,7 @@ function Edit() {
             <h1>Modification</h1>
             <hr />
             <Link to={'/admin'}>panneau d'administration</Link>
+            <BinEmpty /> 
          </section>
 
          <section>
@@ -109,6 +112,7 @@ function Edit() {
                <label htmlFor="price">Prix : <span>(entre 0 et 5000)</span></label>
                <input min="0" max="5000" type="number" placeholder={detailItem.price} ref={price} />
 
+               <label htmlFor="category">Catégorie :</label>
                <select ref={category}>
                   {
                      datas?.length && datas.map((item) => {
@@ -121,7 +125,7 @@ function Edit() {
                   }
                </select>
                
-               <button type="submit">Mettre à jour votre annonce</button>
+               <input type="submit" value="Mettre à jour l'annonce" />
 
             </form>
          </section>
