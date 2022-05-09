@@ -1,7 +1,6 @@
 import Product from "../models/product.model.js";
 
 
-
 export const home = async (req, res, next) => {
    try {
       const items = await Product.getAllProducts();
@@ -15,6 +14,7 @@ export const home = async (req, res, next) => {
    };
 };
 
+
 export const category = async (req, res, next) => {
    try {
       const items = await Product.getAllCategory();
@@ -27,6 +27,7 @@ export const category = async (req, res, next) => {
       console.log(error);
    };
 };
+
 
 export const pickPicture = async (req, res, next) => {
 
@@ -51,6 +52,7 @@ export const pickPicture = async (req, res, next) => {
    });
 };
 
+
 export const postItem = async (req, res, next) => {
 
    const datas = {
@@ -59,7 +61,7 @@ export const postItem = async (req, res, next) => {
       quantity: req.body.quantity,
       img: req.body.img,
       price: req.body.price,
-      user: 1,
+      user: req.body.user,
       category: req.body.category,
    };
 
@@ -69,7 +71,7 @@ export const postItem = async (req, res, next) => {
       await Product.addSaveItem(query, datas);
       res.json({
          status: 200,
-         msg: "Sucess !"
+         msg: "Votre annonce a bien été posté !"
       })
    } catch (error) {
       console.log(error);
@@ -89,6 +91,7 @@ export const loadOneItem = async (req, res, next) => {
       console.log(error);
    };
 };
+
 
 export const updateItem = async (req, res, next) => {
    const id = req.params.id;
@@ -114,6 +117,7 @@ export const updateItem = async (req, res, next) => {
       console.log(error);
    };
 };
+
 
 export const deleteItem = async (req, res, next) => {
    const id = req.params.id;

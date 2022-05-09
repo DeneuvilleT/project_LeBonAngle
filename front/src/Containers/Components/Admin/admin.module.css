@@ -8,10 +8,12 @@
    box-sizing: content-box;
    background-color: rgb(235, 235, 235);
 }
+
 .admin h1 {
    font-size: 1.8rem;
    margin: 0 auto;
 }
+
 .admin h1+hr {
    margin-top: 30px;
    width: 80%;
@@ -29,6 +31,7 @@
    min-width: 400px;
    border-right: 1px gray groove;
 }
+
 .admin section:nth-child(1) article aside {
    display: flex;
    flex-direction: column;
@@ -47,6 +50,7 @@
       0 14px 20px rgba(0, 0, 0, 0.24);
    ;
 }
+
 .admin section:nth-child(1) article aside p{
    margin: 0;
 }
@@ -62,11 +66,13 @@
    width: 80%;
    margin: 45px 0px;
 }
+
 .admin section:nth-child(2) article aside {
    display: flex;
    flex-direction: row;
    flex-wrap: wrap;
-   justify-content: space-around;
+   align-items: center;
+   justify-content: space-evenly;
    background-color: white;
    box-sizing: content-box;
 
@@ -79,16 +85,19 @@
    border-radius: 20px;
    box-shadow: 0 14px 20px rgb(0, 0, 0, 0.12),
    0 14px 20px rgba(0, 0, 0, 0.24);
-
 }
+
 .admin a, .admin button {
    background-color: rgba(0, 0, 0, 0);
+   font-size: inherit;
+   font-weight: 400;
    border: none;
    text-decoration: underline;
    color: blue;
    text-align: right;
    padding-right: 10px;
 }
+
 .admin a:hover, .admin button:hover {
    color: crimson;
    cursor: pointer;

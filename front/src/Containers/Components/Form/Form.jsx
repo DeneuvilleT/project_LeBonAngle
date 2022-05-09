@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useEffect, useRef, useState } from 'react';
-import { ReactComponent as Logo } from '../../../../src/svg/logo.svg';
 import { GlobalContext } from '../../../Context/GlobalContext';
+import { ReactComponent as Logo } from '../../../../src/svg/logo.svg';
 import styles from '../Form/form.module.css';
 import axios from 'axios';
 
@@ -8,74 +8,146 @@ import axios from 'axios';
 function Form() {
 
   const { url } = useContext(GlobalContext);
+  const { connected } = useContext(GlobalContext);
+  const { setConnected } = useContext(GlobalContext);
+  const { datasCat } = useContext(GlobalContext);
+
   const [imgFile, setImgFile] = useState('');
-  const [datas, setDatas] = useState([]);
+  
+  const [idUser, setId] = useState(0);
+  const [msg, setMsg] = useState('');
+
 
   const inputFile = useRef();
   const title = useRef();
   const description = useRef();
+  const firstname = useRef();
+  const nickname = useRef();
+  const pass = useRef();
+  const lastname = useRef();
+  const adress = useRef();
+  const city = useRef();
+  const code_zip = useRef();
   const quantity = useRef();
   const category = useRef();
   const price = useRef();
-
-  // *****************************************
-  // Récupératrion Category ******************
-
-  useEffect(() => {
-    recupDataCategory()
-  },[])
-
-  const recupDataCategory = async () => {
-    try {
-      const res = await fetch(`${url}/api/v1/load_category`);
-      const resJson = await res.json();
-      setDatas(datas => [...datas, ...resJson[0]]);
-
-    } catch (error) {
-      console.log(error);
-    };
-  };
+  const password = useRef();
 
 
   // *****************************************
   // Ajout d'une image ***********************
-  
+
   const pick = async () => {
 
     const formData = new FormData();
     formData.append("image", inputFile.current.files[0]);
-  
+
     try {
       const res = await axios.post(`${url}/form/api/v1/picture`, formData)
         .then(res => {
 
           setImgFile(`${url}/public/images/${res.data.url}`);
-  
         });
     } catch (error) {
       console.log(error);
     };
   };
 
-
   // *****************************************
   // Ajout d'un article **********************
-  
-  const post = async () => {
 
-    const noPhoto = `${url}/public/images/no_photo.png`;
+  const newPost = async (id) => {
 
     try {
       const res = await axios.post(`${url}/form/api/v1/product/add`, {
 
+        user: idUser,
         title: title.current.value,
         description: description.current.value,
         quantity: quantity.current.value,
         category: category.current.value,
         price: price.current.value,
-        img: imgFile !== '' ? imgFile : noPhoto,
-        
+        img: imgFile !== '' ? imgFile : `${url}/public/images/no_photo.png`,
+
       });
+
+      if (res.data.status === 200) {
+        setMsg(res.data.msg);
+        return
+
+      } else {
+
+        setMsg("Visiblement il y a eu une erreur lors de la publication de votre annonce, veuillez réésayer.");
+        return
+        
+      };
+
+    } catch (error) {
+      console.log(error);
+    };
+  };
+
+  // *****************************************
+  // Ajout d'un article **********************
+
+  const newUser = async () => {
+
+    try {
+      const res = await axios.post(`${url}/form/api/v1/product/add_user`, {
+
+        lastname: lastname.current.value,
+        firstname: nickname.current.value,
+        password: pass.current.value,
+        adress: adress.current.value,
+        city: city.current.value,
+        code_zip: code_zip.current.value,
+
+      });
+
+      if (res.data.status === 200) {
+
+        setMsg(res.data.msg);
+        return
+
+      } else {
+
+        setMsg("Visiblement il y a eu une erreur lors de votre enregistrement.");
+        return
+
+      };
+
+    } catch (error) {
+      console.log(error);
+    };
+  };
+
+  // *****************************************
+  // LogIn ***********************************
+
+  const logUser = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await axios.post(`${url}/form/api/v1/login`, {
+
+        firstname: firstname.current.value,
+        password: password.current.value,
+
+      });
+
+      if (res.data.status === 200) {
+
+        setMsg(res.data.msg);
+        setId(res.data.id);
+        setConnected(true);
+
+      } else {
+
+        setMsg(res.data.msg);
+        return
+
+      };
+
     } catch (error) {
       console.log(error);
     };
@@ -88,44 +160,83 @@ function Form() {
       <section>
         <h1>Formulaire</h1>
         <hr />
-        <Logo />
+        {!connected ? (
+          <>
+            <h2>Nouvel utilisateur ?</h2>
+            <form onSubmit={(e) => { newUser(e) }} >
+
+              <input type="text" placeholder='nom' ref={lastname} />
+
+              <input type="text" placeholder='prénom' ref={nickname} />
+
+              <input type="password" placeholder='mot de passe' ref={pass} />
+
+              <input type="text" placeholder='adresse' ref={adress} />
+
+              <input type="text" placeholder='ville' ref={city} />
+
+              <input type="text" placeholder='code postal' ref={code_zip} />
+
+              <input type="submit" value='Envoyer' />
+
+            </form>
+          </>
+        ) : (
+          <>
+            <Logo />
+          </>
+        )}
       </section>
+
 
       <section>
-        <form onSubmit={() => { post() }} >
+        {!connected ? (
+          <>
+            <form onSubmit={(e) => { logUser(e) }} >
+              {msg === '' ? <></> : <p style={{ color: 'red' }} >{msg}</p>}
+              <h2>Pour poster une annonce, vous devez vous connecter.</h2>
 
-          <label htmlFor="title">Titre de l'annonce :</label>
-          <input type="text" ref={title} />
+              <input type="text" placeholder='prénom' ref={firstname} />
 
-          <label htmlFor='description'>Description :</label>
-          <textarea ref={description} ></textarea>
+              <input type="password" ref={password} placeholder='mot de passe ' />
 
-          <label htmlFor="quantity">Quantité :</label>
-          <input min="1" type="number" ref={quantity} />
+              <input type="submit" value='Envoyer' />
 
-          <label htmlFor="price">Prix : <span>(entre 0 et 5000)</span></label>
-          <input min="0" max="5000" type="number" ref={price} />
+            </form>
+          </>
+        ) : (
+            <>
+            <form onSubmit={() => { newPost(idUser) }} >
+            {msg === '' ? <></> : <p style={{ color: 'green' }} >{msg}</p>}
 
-          <label htmlFor="category">Catégorie :</label>
-          <select ref={category}>
-          {
-            datas?.length && datas.map((item) => {
-              return (
-                <Fragment key={item.id}>
-                  <option value={item.id}>{item.name}</option>
-                </Fragment>
-              )
-            })
-          }
-          </select>
+              <input placeholder="titre de l'annonce" type="text" ref={title} />
 
-          <label htmlFor='sampleFile' >Image</label>
-          <input onInput={() => { pick() }} ref={inputFile} type="file" />
+              <textarea placeholder='description' ref={description} ></textarea>
 
-          <input type="submit" value='Envoyer' />
+                <input min="1" max="500" type="number" placeholder='quantité' ref={quantity} />
 
-        </form>
+              <input min="0" max="5000" placeholder='prix' type="number" ref={price} />
+
+              <select ref={category}>
+                {
+                    datasCat?.length && datasCat.map((item) => {
+                    return (
+                      <Fragment key={item.id}>
+                        <option value={item.id}>{item.name}</option>
+                      </Fragment>
+                    )
+                  })
+                }
+              </select>
+
+              <input onInput={() => { pick() }} ref={inputFile} type="file" />
+
+              <input type="submit" value='Envoyer' />
+            </form>
+          </>
+        )}
       </section>
+
     </main>
   );
 };

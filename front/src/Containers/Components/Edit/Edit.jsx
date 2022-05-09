@@ -10,8 +10,9 @@ function Edit() {
 
    const { id } = useParams();
    const { url } = useContext(GlobalContext);
+   const { datasCat } = useContext(GlobalContext);
    const [detailItem, setDetail] = useState({});
-   const [datas, setDatas] = useState([]);
+   const [msg, setMsg] = useState('');
 
    
    // *****************************************
@@ -39,24 +40,6 @@ function Edit() {
       };
    };
    
-   // *****************************************
-   // Récupératrion Category ******************
-
-   useEffect(() => {
-      recupDataCategory()
-   }, [])
-
-   const recupDataCategory = async () => {
-      try {
-         const res = await fetch(`${url}/api/v1/load_category`);
-         const resJson = await res.json();
-         setDatas(datas => [...datas, ...resJson[0]]);
-
-      } catch (error) {
-         console.log(error);
-      };
-   };
-
    
    // *****************************************
    // Mise à jour *****************************
@@ -66,19 +49,24 @@ function Edit() {
    const quantity = useRef();
    const price = useRef();
    const category = useRef();
-   const inputFile = useRef();
 
    const update = async () => {
       try {
          const res = await axios.put(`${url}/api/v1/edit/update/${id}`,{
 
-            title: title.current.value,
-            description: description.current.value,
-            quantity: quantity.current.value,
-            category: category.current.value,
-            price: price.current.value,
-         });
+            title: title.current.value ? title.current.value : title.current.placeholder,
+            description: description.current.value ? description.current.value : description.current.placeholder,
+            quantity: quantity.current.value ? quantity.current.value : quantity.current.placeholder,
+            category: category.current.value ? category.current.value : category.current.placeholder,
+            price: price.current.value ? price.current.value : price.current.placeholder,
 
+         });
+         
+         if (res.data.status === 200) {
+            setMsg(res.data.msg);
+         } else {
+            setMsg('Probléme lors de la mise à jour de votre annonce.');
+         };
       } catch (error) {
          console.log(error);
       };
@@ -92,29 +80,26 @@ function Edit() {
          <section>
             <h1>Modification</h1>
             <hr />
+            {msg === '' ? <></> : <p style={{ color: 'red' }} >{msg}</p>}
             <Link to={'/admin'}>panneau d'administration</Link>
             <Logo /> 
          </section>
 
+         
          <section>
             <form onSubmit={() => { update() }} >
 
-               <label htmlFor="title">Titre de l'annonce :</label>
                <input type="text" ref={title} placeholder={detailItem.title} />
 
-               <label htmlFor='description'>Description :</label>
                <textarea ref={description} placeholder={detailItem.description} ></textarea>
 
-               <label htmlFor="quantity">Quantité :</label>
                <input min="1" type="number" placeholder={detailItem.quantity} ref={quantity} />
 
-               <label htmlFor="price">Prix : <span>(entre 0 et 5000)</span></label>
                <input min="0" max="5000" type="number" placeholder={detailItem.price} ref={price} />
 
-               <label htmlFor="category">Catégorie :</label>
                <select ref={category} >
                   {
-                     datas?.length && datas.map((item) => {
+                     datasCat?.length && datasCat.map((item) => {
                         return (
                            <Fragment key={item.id}>
                               <option value={item.id}>{item.name}</option>
