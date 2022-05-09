@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useRef, useState } from 'react';
+import React, { Fragment, useContext, useRef, useState } from 'react';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { ReactComponent as Logo } from '../../../../src/svg/logo.svg';
 import styles from '../Form/form.module.css';
@@ -13,51 +13,41 @@ function Form() {
   const { datasCat } = useContext(GlobalContext);
 
   const [imgFile, setImgFile] = useState('');
-  
   const [idUser, setId] = useState(0);
   const [msg, setMsg] = useState('');
 
 
-  const inputFile = useRef();
-  const title = useRef();
-  const description = useRef();
-  const firstname = useRef();
-  const nickname = useRef();
-  const pass = useRef();
-  const lastname = useRef();
-  const adress = useRef();
-  const city = useRef();
-  const code_zip = useRef();
-  const quantity = useRef();
-  const category = useRef();
-  const price = useRef();
-  const password = useRef();
-
-
-  // *****************************************
   // Ajout d'une image ***********************
-
+  
   const pick = async () => {
-
+    
     const formData = new FormData();
     formData.append("image", inputFile.current.files[0]);
-
+    
     try {
       const res = await axios.post(`${url}/form/api/v1/picture`, formData)
         .then(res => {
-
+          
           setImgFile(`${url}/public/images/${res.data.url}`);
         });
     } catch (error) {
       console.log(error);
     };
   };
+  
 
-  // *****************************************
   // Ajout d'un article **********************
 
-  const newPost = async (id) => {
+  const title = useRef();
+  const description = useRef();
+  const quantity = useRef();
+  const price = useRef();
+  const category = useRef();
+  const inputFile = useRef();
 
+
+  const newPost = async (id) => {
+    
     try {
       const res = await axios.post(`${url}/form/api/v1/product/add`, {
 
@@ -73,13 +63,9 @@ function Form() {
 
       if (res.data.status === 200) {
         setMsg(res.data.msg);
-        return
-
       } else {
-
         setMsg("Visiblement il y a eu une erreur lors de la publication de votre annonce, veuillez réésayer.");
-        return
-        
+        return;
       };
 
     } catch (error) {
@@ -87,8 +73,15 @@ function Form() {
     };
   };
 
-  // *****************************************
-  // Ajout d'un article **********************
+
+  // Ajout d'un utilisateur ********************
+  
+  const firstname = useRef();
+  const lastname = useRef();
+  const password = useRef();
+  const adress = useRef();
+  const city = useRef();
+  const code_zip = useRef();
 
   const newUser = async () => {
 
@@ -101,19 +94,19 @@ function Form() {
         adress: adress.current.value,
         city: city.current.value,
         code_zip: code_zip.current.value,
-
+        
       });
-
+      
       if (res.data.status === 200) {
 
         setMsg(res.data.msg);
         return
 
       } else {
-
+        
         setMsg("Visiblement il y a eu une erreur lors de votre enregistrement.");
         return
-
+        
       };
 
     } catch (error) {
@@ -121,8 +114,11 @@ function Form() {
     };
   };
 
-  // *****************************************
+ 
   // LogIn ***********************************
+
+  const nickname = useRef();
+  const pass = useRef();
 
   const logUser = async (e) => {
     e.preventDefault();
@@ -134,12 +130,13 @@ function Form() {
         password: password.current.value,
 
       });
-
+      
       if (res.data.status === 200) {
 
         setMsg(res.data.msg);
         setId(res.data.id);
         setConnected(true);
+        return
 
       } else {
 
@@ -152,6 +149,10 @@ function Form() {
       console.log(error);
     };
   };
+
+
+
+
 
 
   return (
@@ -166,17 +167,11 @@ function Form() {
             <form onSubmit={(e) => { newUser(e) }} >
 
               <input type="text" placeholder='nom' ref={lastname} />
-
               <input type="text" placeholder='prénom' ref={nickname} />
-
               <input type="password" placeholder='mot de passe' ref={pass} />
-
               <input type="text" placeholder='adresse' ref={adress} />
-
               <input type="text" placeholder='ville' ref={city} />
-
               <input type="text" placeholder='code postal' ref={code_zip} />
-
               <input type="submit" value='Envoyer' />
 
             </form>
@@ -193,33 +188,28 @@ function Form() {
         {!connected ? (
           <>
             <form onSubmit={(e) => { logUser(e) }} >
+
               {msg === '' ? <></> : <p style={{ color: 'red' }} >{msg}</p>}
               <h2>Pour poster une annonce, vous devez vous connecter.</h2>
-
               <input type="text" placeholder='prénom' ref={firstname} />
-
               <input type="password" ref={password} placeholder='mot de passe ' />
-
               <input type="submit" value='Envoyer' />
 
             </form>
           </>
         ) : (
-            <>
+          <>
             <form onSubmit={() => { newPost(idUser) }} >
-            {msg === '' ? <></> : <p style={{ color: 'green' }} >{msg}</p>}
+
+              {msg === '' ? <></> : <p style={{ color: 'green' }} >{msg}</p>}
 
               <input placeholder="titre de l'annonce" type="text" ref={title} />
-
               <textarea placeholder='description' ref={description} ></textarea>
-
-                <input min="1" max="500" type="number" placeholder='quantité' ref={quantity} />
-
+              <input min="1" max="500" type="number" placeholder='quantité' ref={quantity} />
               <input min="0" max="5000" placeholder='prix' type="number" ref={price} />
-
               <select ref={category}>
                 {
-                    datasCat?.length && datasCat.map((item) => {
+                  datasCat?.length && datasCat.map((item) => {
                     return (
                       <Fragment key={item.id}>
                         <option value={item.id}>{item.name}</option>
@@ -228,10 +218,9 @@ function Form() {
                   })
                 }
               </select>
-
               <input onInput={() => { pick() }} ref={inputFile} type="file" />
-
               <input type="submit" value='Envoyer' />
+
             </form>
           </>
         )}

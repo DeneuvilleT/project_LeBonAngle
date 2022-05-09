@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react'
+import React, { Fragment } from 'react';
+import Input from './Input';
 
-function AddForm({ eventOnSubmit, inputs, onChange}) {
+function AddForm({ msg ,eventOnSubmit, inputs, onChange}) {
   return (
      <form onSubmit={eventOnSubmit}>
         {
@@ -10,19 +11,20 @@ function AddForm({ eventOnSubmit, inputs, onChange}) {
 
                  <Fragment key={index}>
                     <Input
-                       type={typeof value === "string" ? "text" : "number"}
+                       type={typeof value === "string" ? "text" : "text"}
                        value={value}
                        onChange={onChange[index]}
                     />
 
-                    {
+                    {/* {
                        !value.trim().length && <p>{ msg }</p>
-                    }
+                    } */}
                  </Fragment>
 
               )
            })
         }
+        <Input type="submit"/>
     </form>
   )
 }

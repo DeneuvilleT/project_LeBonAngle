@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { ReactComponent as Logo } from '../../../../src/svg/logo.svg';
 import dayjs from 'dayjs';
