@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState, Fragment } from 'react';
-import { ReactComponent as BinEmpty } from '../../../../src/svg/logo.svg';
+import { ReactComponent as Logo } from '../../../../src/svg/logo.svg';
 import { useParams } from 'react-router-dom';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { Link } from 'react-router-dom';
@@ -50,7 +50,6 @@ function Edit() {
       try {
          const res = await fetch(`${url}/api/v1/load_category`);
          const resJson = await res.json();
-         console.log(resJson[0]);
          setDatas(datas => [...datas, ...resJson[0]]);
 
       } catch (error) {
@@ -94,7 +93,7 @@ function Edit() {
             <h1>Modification</h1>
             <hr />
             <Link to={'/admin'}>panneau d'administration</Link>
-            <BinEmpty /> 
+            <Logo /> 
          </section>
 
          <section>
@@ -113,7 +112,7 @@ function Edit() {
                <input min="0" max="5000" type="number" placeholder={detailItem.price} ref={price} />
 
                <label htmlFor="category">Catégorie :</label>
-               <select ref={category}>
+               <select ref={category} >
                   {
                      datas?.length && datas.map((item) => {
                         return (

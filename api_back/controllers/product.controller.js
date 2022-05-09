@@ -30,9 +30,9 @@ export const category = async (req, res, next) => {
 
 export const pickPicture = async (req, res, next) => {
 
-   // if (!req.files || Object.keys(req.files).length) {
-   //    res.status(400);
-   // };
+   if (!req.files || !Object.keys(req.files).length) {
+      res.status(400);
+   };
 
    req.files.image.mv(`public/images/${req.files.image.name}`, (error) => {
 

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { Link } from 'react-router-dom';
+import dayjs from 'dayjs';
 import styles from '../Admin/admin.module.css';
 
 function Admin() {
@@ -101,7 +102,7 @@ function Admin() {
                   <hr />
                   <p>Vendeur : {item.lastname}</p>
                   <hr />
-                  <p>Date de publication : {item.post_date}</p>
+                  <p>Date de publication : {dayjs(item.post_date).format('DD MMM YYYY à HH : mm')}</p>
                   <hr />
                   <p><strong>Prix de vente : </strong><strong style={{ color: 'red' }}>{item.price} €</strong></p>
                   <hr />

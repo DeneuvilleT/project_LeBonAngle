@@ -69,7 +69,6 @@
 
    /* Width */
    width: 90%;
-   min-width: 800px;
    height: 1000px;
    margin: 20px auto;
    border-radius: 20px;
@@ -94,7 +93,9 @@
    box-shadow: 0 14px 20px rgb(0, 0, 0, 0.12),
       0 14px 20px rgba(0, 0, 0, 0.24);
    border: none;
-   width: 25%;
+   width: 60%;
+   max-width: 650px;
+   min-width: 300px;
    padding: 10px;
 }
 

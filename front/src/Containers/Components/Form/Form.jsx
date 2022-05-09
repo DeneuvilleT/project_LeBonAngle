@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useEffect, useRef, useState } from 'react';
-import { ReactComponent as BinEmpty } from '../../../../src/svg/logo.svg';
+import { ReactComponent as Logo } from '../../../../src/svg/logo.svg';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import styles from '../Form/form.module.css';
 import axios from 'axios';
@@ -29,7 +29,6 @@ function Form() {
     try {
       const res = await fetch(`${url}/api/v1/load_category`);
       const resJson = await res.json();
-      console.log(resJson[0]);
       setDatas(datas => [...datas, ...resJson[0]]);
 
     } catch (error) {
@@ -75,6 +74,7 @@ function Form() {
         category: category.current.value,
         price: price.current.value,
         img: imgFile !== '' ? imgFile : noPhoto,
+        
       });
     } catch (error) {
       console.log(error);
@@ -88,7 +88,7 @@ function Form() {
       <section>
         <h1>Formulaire</h1>
         <hr />
-        <BinEmpty />
+        <Logo />
       </section>
 
       <section>

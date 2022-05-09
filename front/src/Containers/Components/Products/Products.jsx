@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GlobalContext } from '../../../Context/GlobalContext';
-import { ReactComponent as BinEmpty } from '../../../../src/svg/logo.svg';
+import { ReactComponent as Logo } from '../../../../src/svg/logo.svg';
+import dayjs from 'dayjs';
 import css from '../Products/products.module.css';
 
 function Products() {
@@ -39,15 +40,12 @@ function Products() {
       const res = await fetch(`${url}/api/v1/product/${id}`);
       const resJson = await res.json();
 
-      let date = resJson[0][0].post_date;
-      date = new Date();
-
       setDetail({
         title: resJson[0][0].title,
         descritpion: resJson[0][0].description,
         category: resJson[0][0].name,
         quantity: resJson[0][0].quantity,
-        post_date: date.toLocaleDateString(),
+        post_date: resJson[0][0].post_date,
         nickName: `${resJson[0][0].lastname} ${resJson[0][0].firstname}`,
         price: resJson[0][0].price,
       });
@@ -71,7 +69,7 @@ function Products() {
 
           {!detailItem.title ? (
             <>
-              <BinEmpty/>
+              <Logo/>
             </>
           ) : (
             <>
@@ -79,7 +77,8 @@ function Products() {
                 <h2>{detailItem.title}</h2>
                 <p><strong>Description : </strong><br />{detailItem.descritpion}</p>
                 <p><strong>Quantité : </strong>{detailItem.quantity}</p>
-                <p><strong>Postée le : </strong>{detailItem.post_date} par : {detailItem.nickName}</p>
+                  <p><strong>Postée le : </strong>{dayjs(detailItem.post_date).format('DD MMM YYYY à HH : mm')}
+                <span><br/>par : <strong style={{ color: 'green' }}>{detailItem.nickName}</strong></span></p>
                 <p><strong>Catégorie : </strong>{detailItem.category}</p>
                 <p><strong>Prix : <em style={{ color: 'red' }}>{detailItem.price} €</em></strong></p>
               </aside>
