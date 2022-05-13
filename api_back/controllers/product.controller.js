@@ -38,16 +38,18 @@ export const pickPicture = async (req, res, next) => {
    req.files.image.mv(`public/images/${req.files.image.name}`, (error) => {
 
       if (error) {
+         console.log(error, "L'image n'a pas été enregistré");
          res.json({
             status: 500,
-            msg: "Echec de l'enregistrement",
          });
+
+         return
       };
    });
 
+   console.log(`L'image ${req.files.image.name} a été chargée.`);
    res.json({
       status: 200,
-      msg: `L'image ${req.files.image.name} a été chargée.`,
       url: req.files.image.name,
    });
 };

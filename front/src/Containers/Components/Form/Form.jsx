@@ -3,6 +3,7 @@ import { GlobalContext } from '../../../Context/GlobalContext';
 import { ReactComponent as Logo } from '../../../../src/svg/logo.svg';
 import styles from '../Form/form.module.css';
 import axios from 'axios';
+import Msg from '../Msg/Msg';
 
 
 function Form() {
@@ -18,23 +19,24 @@ function Form() {
 
 
   // Ajout d'une image ***********************
-  
+
   const pick = async () => {
-    
+
     const formData = new FormData();
     formData.append("image", inputFile.current.files[0]);
-    
+
     try {
       const res = await axios.post(`${url}/form/api/v1/picture`, formData)
         .then(res => {
-          
+
           setImgFile(`${url}/public/images/${res.data.url}`);
+
         });
     } catch (error) {
       console.log(error);
     };
   };
-  
+
 
   // Ajout d'un article **********************
 
@@ -46,8 +48,10 @@ function Form() {
   const inputFile = useRef();
 
 
-  const newPost = async (id) => {
-    
+  const newPost = async (e) => {
+
+    e.preventDefault();
+
     try {
       const res = await axios.post(`${url}/form/api/v1/product/add`, {
 
@@ -63,9 +67,12 @@ function Form() {
 
       if (res.data.status === 200) {
         setMsg(res.data.msg);
+        return
+
       } else {
         setMsg("Visiblement il y a eu une erreur lors de la publication de votre annonce, veuillez réésayer.");
-        return;
+        return
+
       };
 
     } catch (error) {
@@ -75,38 +82,45 @@ function Form() {
 
 
   // Ajout d'un utilisateur ********************
-  
+
   const firstname = useRef();
   const lastname = useRef();
+  const email = useRef();
   const password = useRef();
   const adress = useRef();
   const city = useRef();
   const code_zip = useRef();
 
-  const newUser = async () => {
+  const newUser = async (e) => {
+
+    e.preventDefault();
 
     try {
       const res = await axios.post(`${url}/form/api/v1/product/add_user`, {
 
         lastname: lastname.current.value,
         firstname: nickname.current.value,
+        email: email.current.value,
         password: pass.current.value,
         adress: adress.current.value,
         city: city.current.value,
         code_zip: code_zip.current.value,
-        
+
       });
-      
+
       if (res.data.status === 200) {
 
         setMsg(res.data.msg);
+
+        const response = await axios.post(`${url}/form/api/v1/sendMail`, {
+          email: email.current.value
+        });
         return
 
       } else {
-        
-        setMsg("Visiblement il y a eu une erreur lors de votre enregistrement.");
+        setMsg("Visiblement il y a eu une erreur lors de votre enregistrement, veuillez réésayer.");
         return
-        
+
       };
 
     } catch (error) {
@@ -114,13 +128,14 @@ function Form() {
     };
   };
 
- 
+
   // LogIn ***********************************
 
   const nickname = useRef();
   const pass = useRef();
 
   const logUser = async (e) => {
+
     e.preventDefault();
 
     try {
@@ -130,16 +145,14 @@ function Form() {
         password: password.current.value,
 
       });
-      
-      if (res.data.status === 200) {
 
+      if (res.data.status === 200) {
         setMsg(res.data.msg);
         setId(res.data.id);
         setConnected(true);
         return
 
       } else {
-
         setMsg(res.data.msg);
         return
 
@@ -151,23 +164,21 @@ function Form() {
   };
 
 
-
-
-
-
   return (
     <main role='main' className={styles.form}>
 
       <section>
         <h1>Formulaire</h1>
         <hr />
+
         {!connected ? (
           <>
             <h2>Nouvel utilisateur ?</h2>
             <form onSubmit={(e) => { newUser(e) }} >
-
+              
               <input type="text" placeholder='nom' ref={lastname} />
               <input type="text" placeholder='prénom' ref={nickname} />
+              <input type="email" placeholder='mail' ref={email} />
               <input type="password" placeholder='mot de passe' ref={pass} />
               <input type="text" placeholder='adresse' ref={adress} />
               <input type="text" placeholder='ville' ref={city} />
@@ -177,19 +188,19 @@ function Form() {
             </form>
           </>
         ) : (
-          <>
-            <Logo />
-          </>
+          <><Logo /></>
         )}
       </section>
 
 
       <section>
+
         {!connected ? (
           <>
             <form onSubmit={(e) => { logUser(e) }} >
 
-              {msg === '' ? <></> : <p style={{ color: 'red' }} >{msg}</p>}
+              <Msg msg={msg} />
+              
               <h2>Pour poster une annonce, vous devez vous connecter.</h2>
               <input type="text" placeholder='prénom' ref={firstname} />
               <input type="password" ref={password} placeholder='mot de passe ' />
@@ -199,9 +210,9 @@ function Form() {
           </>
         ) : (
           <>
-            <form onSubmit={() => { newPost(idUser) }} >
+            <form onSubmit={(e) => { newPost(e) }} >
 
-              {msg === '' ? <></> : <p style={{ color: 'green' }} >{msg}</p>}
+                <Msg msg={msg} />
 
               <input placeholder="titre de l'annonce" type="text" ref={title} />
               <textarea placeholder='description' ref={description} ></textarea>

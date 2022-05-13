@@ -5,6 +5,7 @@ import { GlobalContext } from '../../../Context/GlobalContext';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../Edit/edit.module.css';
+import Msg from '../Msg/Msg';
 
 function Edit() {
 
@@ -35,6 +36,7 @@ function Edit() {
             quantity: resJson[0][0].quantity,
             price: resJson[0][0].price,
          });
+         
       } catch (error) {
          console.log(error);
       };
@@ -50,7 +52,10 @@ function Edit() {
    const price = useRef();
    const category = useRef();
 
-   const update = async () => {
+   const update = async (e) => {
+
+      e.preventDefault();
+
       try {
          const res = await axios.put(`${url}/api/v1/edit/update/${id}`,{
 
@@ -64,8 +69,12 @@ function Edit() {
          
          if (res.data.status === 200) {
             setMsg(res.data.msg);
+            return
+
          } else {
             setMsg('Probléme lors de la mise à jour de votre annonce.');
+            return
+
          };
       } catch (error) {
          console.log(error);
@@ -80,14 +89,16 @@ function Edit() {
          <section>
             <h1>Modification</h1>
             <hr />
-            {msg === '' ? <></> : <p style={{ color: 'red' }} >{msg}</p>}
+
+            <Msg msg={msg}/>
             <Link to={'/admin'}>panneau d'administration</Link>
             <Logo /> 
+
          </section>
 
          
          <section>
-            <form onSubmit={() => { update() }} >
+            <form onSubmit={(e) => { update(e) }} >
 
                <input type="text" ref={title} placeholder={detailItem.title} />
 

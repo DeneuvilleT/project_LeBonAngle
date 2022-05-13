@@ -152,3 +152,11 @@
    color: crimson;
    cursor: pointer;
 }
+
+.form .goodMsg {
+   color: rgb(0, 119, 0);
+   background-color: darkgoldenrod;
+   font-weight: 600;
+   border-radius: 20px;
+   padding: 10px;
+}

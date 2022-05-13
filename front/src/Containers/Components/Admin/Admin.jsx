@@ -3,13 +3,14 @@ import { GlobalContext } from '../../../Context/GlobalContext';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import styles from '../Admin/admin.module.css';
+import Msg from '../Msg/Msg';
 
 function Admin() {
 
   const { url } = useContext(GlobalContext);
   const { datasItems } = useContext(GlobalContext)
   const [datasUsers, setDatas] = useState([]);
-
+  const [msg, setMsg] = useState('');
 
   
   // *****************************************
@@ -39,6 +40,8 @@ function Admin() {
       const res = await fetch(`${url}/api/v1/admin/delete/${id}`);
       const resJson = await res.json();
 
+      setMsg(res.data.msg);
+      
     } catch (error) {
       console.log(error);
     };
@@ -72,6 +75,7 @@ function Admin() {
       
       <section>
         <article>
+          <Msg msg={msg} />
           {
             datasItems?.length && datasItems.map((item) => {
               return (

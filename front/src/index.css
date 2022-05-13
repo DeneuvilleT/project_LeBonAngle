@@ -13,3 +13,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.goodMsg {
+  color: rgb(0, 119, 0);
+  background-color: rgb(230, 166, 7);
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.badMsg {
+  color: rgb(187, 0, 0);
+  background-color: rgb(230, 166, 7);
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 10px;
+}

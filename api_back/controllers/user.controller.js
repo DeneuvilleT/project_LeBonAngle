@@ -1,5 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from 'bcrypt';
+import sendM from '../lib/mailing.js';
+
 
 export const users = async (req, res, next) => {
    try {
@@ -21,25 +23,50 @@ export const postUser = async (req, res, next) => {
 
       lastname: req.body.lastname,
       firstname: req.body.firstname,
+      email: req.body.email,
       password: hashed,
       adress: req.body.adress,
       city: req.body.city,
       code_zip: req.body.code_zip,
    }
 
-   const query = "INSERT INTO `user`(`lastname`, `firstname`, `password`, `adress`, `city`, `code_zip`) VALUES (?,?,?,?,?,?)";
+   const query = "INSERT INTO `user`(`lastname`, `firstname`, `email` ,`password`, `adress`, `city`, `code_zip`) VALUES (?,?,?,?,?,?,?)";
 
    try {
+
       await User.addSaveItem(query, datas);
+
       res.json({
          status: 200,
-         msg: "Bienvenue !"
+         msg: "Un email de confirmation vous a été envoyé."
       });
-      
+
    } catch (error) {
       console.log(error);
    };
 };
+
+
+export const sendMail = async (req, res, next) => {
+
+   const mail = req.body.email
+
+   try {
+
+      sendM(mail, "Bienvenue", "Bonjour ... vous !",
+         `<h1>Welcome to the "LeBonAngle"</h1>`)
+
+      res.json({
+         status: 200,
+      });
+
+   } catch (error) {
+      console.log(error);
+   }
+}
+
+
+
 
 export const login = async (req, res, next) => {
    try {
@@ -48,7 +75,7 @@ export const login = async (req, res, next) => {
       if (!userBeLogin[0].length) {
          res.json({
             status: 404,
-            msg: "Utilisateur inccorect."
+            msg: "Utilisateur inccorect.",
          });
       } else {
 
@@ -58,13 +85,13 @@ export const login = async (req, res, next) => {
          if (compPass) {
             res.json({
                status: 200,
-               id : userBeLogin[0][0].id,
-               msg: 'Authentification réussi !'
+               id: userBeLogin[0][0].id,
+               msg: 'Authentification réussi !',
             })
          } else {
             res.json({
                status: 400,
-               msg: 'Mot de passe incorrect'
+               msg: 'Mot de passe incorrect.',
             })
          }
       };
