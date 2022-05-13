@@ -6,13 +6,17 @@ export const home = async (req, res, next) => {
       const items = await Product.getAllProducts();
       if (!items[0].length) {
          throw Error;
+
       } else {
-         res.status(200).send(items)
+         res.status(200).send(items);
+
       };
    } catch (error) {
       console.log(error);
    };
 };
+
+
 
 
 export const category = async (req, res, next) => {
@@ -20,13 +24,18 @@ export const category = async (req, res, next) => {
       const items = await Product.getAllCategory();
       if (!items[0].length) {
          throw Error;
+
       } else {
-         res.status(200).send(items)
+         res.status(200).send(items);
+
       };
+
    } catch (error) {
       console.log(error);
    };
 };
+
+
 
 
 export const pickPicture = async (req, res, next) => {
@@ -42,8 +51,8 @@ export const pickPicture = async (req, res, next) => {
          res.json({
             status: 500,
          });
-
          return
+
       };
    });
 
@@ -53,6 +62,8 @@ export const pickPicture = async (req, res, next) => {
       url: req.files.image.name,
    });
 };
+
+
 
 
 export const postItem = async (req, res, next) => {
@@ -74,11 +85,15 @@ export const postItem = async (req, res, next) => {
       res.json({
          status: 200,
          msg: "Votre annonce a bien été posté !"
-      })
+      });
+
    } catch (error) {
       console.log(error);
    };
 };
+
+
+
 
 export const loadOneItem = async (req, res, next) => {
    const id = req.params.id;
@@ -86,13 +101,18 @@ export const loadOneItem = async (req, res, next) => {
       const item = await Product.getOneProduct(id);
       if (!item[0].length) {
          throw Error;
+
       } else {
          res.status(200).send(item);
+
       };
+
    } catch (error) {
       console.log(error);
    };
 };
+
+
 
 
 export const updateItem = async (req, res, next) => {
@@ -115,10 +135,13 @@ export const updateItem = async (req, res, next) => {
          status: 200,
          msg: `Les informations ont bien été mis à jour.`,
       });
+
    } catch (error) {
       console.log(error);
    };
 };
+
+
 
 
 export const deleteItem = async (req, res, next) => {
@@ -129,6 +152,7 @@ export const deleteItem = async (req, res, next) => {
          status: 200,
          msg: `L'article a bien été supprimé.`,
       });
+
    } catch (error) {
       console.log(error);
    };

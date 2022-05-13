@@ -1,6 +1,8 @@
 import User from "../models/user.model.js";
 import bcrypt from 'bcrypt';
 import sendM from '../lib/mailing.js';
+import express from 'express';
+import router from "../routes/index.js";
 
 
 export const users = async (req, res, next) => {
@@ -54,7 +56,7 @@ export const sendMail = async (req, res, next) => {
    try {
 
       sendM(mail, "Bienvenue", "Bonjour ... vous !",
-         `<h1>Welcome to the "LeBonAngle"</h1>`)
+         `<a href='http://localhost:9000/api/v1/validate_user'>Welcome to the "LeBonAngle"</a>`)
 
       res.json({
          status: 200,
@@ -95,6 +97,23 @@ export const login = async (req, res, next) => {
             })
          }
       };
+
+   } catch (error) {
+      console.log(error);
+   };
+}
+
+
+export const validateUser = async (req, res, next) => {
+   try {
+
+      req.session.isLogged = true;
+      console.log(req.session);
+      res.redirect("http://localhost:3000/");
+      res.json({
+         msg: "Votre email a été validé.",
+         isLogged: true,
+      })
 
    } catch (error) {
       console.log(error);

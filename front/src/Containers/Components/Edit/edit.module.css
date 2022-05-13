@@ -83,6 +83,18 @@
    box-shadow: none;
 }
 
+.edit section:nth-child(2) form input[type="number"] {
+   width: 10%;
+}
+
+.edit section:nth-child(2) form input[type="submit"] {
+   width: 5% !important;
+}
+
+.edit section:nth-child(2) form textarea {
+   width: 50% !important;
+}
+
 .edit section:nth-child(2) form input,
 .edit section:nth-child(2) form textarea,
 .edit section:nth-child(2) form option,
@@ -95,7 +107,7 @@
    box-shadow: 0 14px 20px rgb(0, 0, 0, 0.12),
       0 14px 20px rgba(0, 0, 0, 0.24);
    border: none;
-   width: 60%;
+   width: 40%;
    max-width: 650px;
    min-width: 300px;
    padding: 10px;

@@ -9,14 +9,18 @@ import Msg from '../Msg/Msg';
 function Form() {
 
   const { url } = useContext(GlobalContext);
+  const { idUser } = useContext(GlobalContext);
+  const { logUser } = useContext(GlobalContext);
   const { connected } = useContext(GlobalContext);
-  const { setConnected } = useContext(GlobalContext);
   const { datasCat } = useContext(GlobalContext);
+  const { recupProducts } = useContext(GlobalContext);
 
   const [imgFile, setImgFile] = useState('');
-  const [idUser, setId] = useState(0);
+
   const [msg, setMsg] = useState('');
 
+  const formRefPost = useRef();
+  const formRefUser = useRef();
 
   // Ajout d'une image ***********************
 
@@ -49,7 +53,6 @@ function Form() {
 
 
   const newPost = async (e) => {
-
     e.preventDefault();
 
     try {
@@ -66,6 +69,8 @@ function Form() {
       });
 
       if (res.data.status === 200) {
+        recupProducts();
+        formRefPost.current.reset();
         setMsg(res.data.msg);
         return
 
@@ -91,6 +96,9 @@ function Form() {
   const city = useRef();
   const code_zip = useRef();
 
+  const nickname = useRef();
+  const pass = useRef();
+
   const newUser = async (e) => {
 
     e.preventDefault();
@@ -109,12 +117,12 @@ function Form() {
       });
 
       if (res.data.status === 200) {
-
         setMsg(res.data.msg);
-
-        const response = await axios.post(`${url}/form/api/v1/sendMail`, {
+        await axios.post(`${url}/form/api/v1/sendMail`, {
           email: email.current.value
         });
+
+        formRefUser.current.reset();
         return
 
       } else {
@@ -129,39 +137,6 @@ function Form() {
   };
 
 
-  // LogIn ***********************************
-
-  const nickname = useRef();
-  const pass = useRef();
-
-  const logUser = async (e) => {
-
-    e.preventDefault();
-
-    try {
-      const res = await axios.post(`${url}/form/api/v1/login`, {
-
-        firstname: firstname.current.value,
-        password: password.current.value,
-
-      });
-
-      if (res.data.status === 200) {
-        setMsg(res.data.msg);
-        setId(res.data.id);
-        setConnected(true);
-        return
-
-      } else {
-        setMsg(res.data.msg);
-        return
-
-      };
-
-    } catch (error) {
-      console.log(error);
-    };
-  };
 
 
   return (
@@ -174,8 +149,8 @@ function Form() {
         {!connected ? (
           <>
             <h2>Nouvel utilisateur ?</h2>
-            <form onSubmit={(e) => { newUser(e) }} >
-              
+            <form ref={formRefUser} onSubmit={(e) => { newUser(e) }} >
+
               <input type="text" placeholder='nom' ref={lastname} />
               <input type="text" placeholder='prénom' ref={nickname} />
               <input type="email" placeholder='mail' ref={email} />
@@ -197,10 +172,10 @@ function Form() {
 
         {!connected ? (
           <>
-            <form onSubmit={(e) => { logUser(e) }} >
+            <form onSubmit={(e) => { logUser(e, firstname, password) }} >
 
               <Msg msg={msg} />
-              
+
               <h2>Pour poster une annonce, vous devez vous connecter.</h2>
               <input type="text" placeholder='prénom' ref={firstname} />
               <input type="password" ref={password} placeholder='mot de passe ' />
@@ -210,14 +185,14 @@ function Form() {
           </>
         ) : (
           <>
-            <form onSubmit={(e) => { newPost(e) }} >
+            <form ref={formRefPost} onSubmit={(e) => { newPost(e) }} >
 
-                <Msg msg={msg} />
+              <Msg msg={msg} />
 
               <input placeholder="titre de l'annonce" type="text" ref={title} />
               <textarea placeholder='description' ref={description} ></textarea>
               <input min="1" max="500" type="number" placeholder='quantité' ref={quantity} />
-              <input min="0" max="5000" placeholder='prix' type="number" ref={price} />
+              <input min="0" max="100000" placeholder='prix' type="number" ref={price} />
               <select ref={category}>
                 {
                   datasCat?.length && datasCat.map((item) => {

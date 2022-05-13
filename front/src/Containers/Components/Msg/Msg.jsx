@@ -10,13 +10,16 @@ function Msg({ msg }) {
             msg === "Votre annonce a bien été posté !" && <p className='goodMsg' >{msg}</p>
          }
          {
+            msg === "Votre email a été validé." && <p className='goodMsg' >{msg}</p>
+         }
+         {
             msg === "Authentification réussi !" && <p className='goodMsg' >{msg}</p>
          }
          {
             msg === "Les informations ont bien été mis à jour." && <p className='goodMsg' >{msg}</p>
          }
          {
-            msg === "Un email de confirmation vous a été envoyé." && <p className='gooMsg' >{msg}</p>
+            msg === "Un email de confirmation vous a été envoyé." && <p className='goodMsg' >{msg}</p>
          }
          {
             msg === "L'article a bien été supprimé." && <p className='goodMsg' >{msg}</p>

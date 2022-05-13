@@ -3,12 +3,14 @@ import { GlobalContext } from '../../../Context/GlobalContext';
 import { ReactComponent as Logo } from '../../../../src/svg/logo.svg';
 import dayjs from 'dayjs';
 import css from '../Products/products.module.css';
+import Msg from '../Msg/Msg';
 
 function Products() {
 
   const { url } = useContext(GlobalContext)
   const { datasItems } = useContext(GlobalContext)
   const [details, setDetail] = useState({});
+  const [msg, setMsg] = useState('');
 
 
   const detailItem = async (id) => {
@@ -27,6 +29,7 @@ function Products() {
         price: resJson[0][0].price,
 
       });
+
     } catch (error) {
       console.log(error);
     };
@@ -40,6 +43,7 @@ function Products() {
       <section >
         <h1>Home page</h1>
         <hr />
+        <Msg msg={msg}/>
         <article>
           {!details.title ? (
             <><Logo /></>

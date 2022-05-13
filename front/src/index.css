@@ -15,8 +15,8 @@ code {
 }
 
 .goodMsg {
-  color: rgb(0, 119, 0);
-  background-color: rgb(230, 166, 7);
+  color: rgb(16, 128, 16);
+  background-color: rgb(236, 193, 2);
   font-weight: 600;
   border-radius: 20px;
   padding: 10px;
@@ -24,7 +24,7 @@ code {
 
 .badMsg {
   color: rgb(187, 0, 0);
-  background-color: rgb(230, 166, 7);
+  background-color: rgb(236, 193, 2);
   font-weight: 600;
   border-radius: 20px;
   padding: 10px;

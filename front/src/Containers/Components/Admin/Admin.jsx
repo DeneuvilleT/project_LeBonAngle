@@ -8,9 +8,12 @@ import Msg from '../Msg/Msg';
 function Admin() {
 
   const { url } = useContext(GlobalContext);
-  const { datasItems } = useContext(GlobalContext)
+  const { msg } = useContext(GlobalContext);
+  const { setMsg } = useContext(GlobalContext);
+  const { datasItems } = useContext(GlobalContext);
+  const { setItems } = useContext(GlobalContext);
+  const { recupProducts } = useContext(GlobalContext);
   const [datasUsers, setDatas] = useState([]);
-  const [msg, setMsg] = useState('');
 
 
   // *****************************************
@@ -19,6 +22,8 @@ function Admin() {
   useEffect(() => {
     recupUsers()
   }, []);
+
+
 
   const recupUsers = async () => {
     try {
@@ -43,7 +48,12 @@ function Admin() {
       const res = await fetch(`${url}/api/v1/admin/delete/${id}`);
       const resJson = await res.json();
 
-      setMsg(res.data.msg);
+      setMsg(resJson.msg);
+
+      const elemToDeleted = datasItems.findIndex(item => item.id === id);
+      setItems(item => item.splice(elemToDeleted));
+
+      recupProducts();
 
     } catch (error) {
       console.log(error);
