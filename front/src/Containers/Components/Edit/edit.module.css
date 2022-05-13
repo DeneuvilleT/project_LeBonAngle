@@ -19,6 +19,12 @@
    width: 80%;
 }
 
+.edit strong {
+   font-size: 1.5rem;
+   vertical-align: middle;
+   font-weight: 500;
+}
+
 
 /* Block 1 */
 .edit section:nth-child(1) {

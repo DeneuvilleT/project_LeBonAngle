@@ -106,7 +106,7 @@ function Edit() {
 
                <input min="1" type="number" placeholder={detailItem.quantity} ref={quantity} />
 
-               <input min="0" max="5000" type="number" placeholder={detailItem.price} ref={price} />
+               <span><input min="0" max="100000" type="number" placeholder={detailItem.price} ref={price} /><strong>&nbsp;&nbsp;€</strong></span>
 
                <select ref={category} >
                   {

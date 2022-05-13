@@ -11,8 +11,8 @@ function Form() {
   const { url } = useContext(GlobalContext);
   const { idUser } = useContext(GlobalContext);
   const { logUser } = useContext(GlobalContext);
-  const { connected } = useContext(GlobalContext);
   const { datasCat } = useContext(GlobalContext);
+  const { connected } = useContext(GlobalContext);
   const { recupProducts } = useContext(GlobalContext);
 
   const [imgFile, setImgFile] = useState('');
@@ -192,7 +192,7 @@ function Form() {
               <input placeholder="titre de l'annonce" type="text" ref={title} />
               <textarea placeholder='description' ref={description} ></textarea>
               <input min="1" max="500" type="number" placeholder='quantité' ref={quantity} />
-              <input min="0" max="100000" placeholder='prix' type="number" ref={price} />
+                <span><input min="0" max="100000" placeholder={"prix"} type="number" ref={price} /><strong>&nbsp;&nbsp;€</strong></span>
               <select ref={category}>
                 {
                   datasCat?.length && datasCat.map((item) => {

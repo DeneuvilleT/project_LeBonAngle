@@ -1,39 +1,74 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import { ReactComponent as Logo } from '../../../../src/svg/logo.svg';
+import Msg from '../Msg/Msg';
 import dayjs from 'dayjs';
 import css from '../Products/products.module.css';
-import Msg from '../Msg/Msg';
 
 function Products() {
 
-  const { url } = useContext(GlobalContext)
-  const { datasItems } = useContext(GlobalContext)
+  const { url } = useContext(GlobalContext);
+  const [datasItems, setItems] = useState([]);
   const [details, setDetail] = useState({});
   const [msg, setMsg] = useState('');
 
+  
+  useEffect(() => {
+    recupProducts()
+  }, [])
 
-  const detailItem = async (id) => {
+
+
+  const recupProducts = async () => {
+
+    setItems([]);
+
     try {
-      const res = await fetch(`${url}/api/v1/product/${id}`);
+      const res = await fetch(`${url}/api/v1/load_products`);
       const resJson = await res.json();
 
-      setDetail({
-        
-        title: resJson[0][0].title,
-        descritpion: resJson[0][0].description,
-        category: resJson[0][0].name,
-        quantity: resJson[0][0].quantity,
-        post_date: resJson[0][0].post_date,
-        nickName: `${resJson[0][0].lastname} ${resJson[0][0].firstname}`,
-        price: resJson[0][0].price,
-
-      });
+      setItems(data => [...data, ...resJson[0]]);
 
     } catch (error) {
       console.log(error);
     };
   };
+
+
+
+  const detailItem = async (e, id) => {
+
+    if (!details.title) {
+      try {
+        const res = await fetch(`${url}/api/v1/product/${id}`);
+        const resJson = await res.json();
+
+        setDetail({
+
+          title: resJson[0][0].title,
+          descritpion: resJson[0][0].description,
+          category: resJson[0][0].name,
+          quantity: resJson[0][0].quantity,
+          post_date: resJson[0][0].post_date,
+          nickName: `${resJson[0][0].lastname} ${resJson[0][0].firstname}`,
+          price: resJson[0][0].price,
+
+        });
+
+        e.target.text = "- de détails";
+
+      } catch (error) {
+        console.log(error);
+
+      };
+    } else {
+      setDetail({});
+      e.target.text = "+ de détails";
+
+    };
+  };
+
+
 
 
   return (
@@ -43,7 +78,7 @@ function Products() {
       <section >
         <h1>Home page</h1>
         <hr />
-        <Msg msg={msg}/>
+        <Msg msg={msg} />
         <article>
           {!details.title ? (
             <><Logo /></>
@@ -53,10 +88,10 @@ function Products() {
                 <h2>{details.title}</h2>
                 <p><strong>Description : </strong><br />{details.descritpion}</p>
                 <p><strong>Quantité : </strong>{details.quantity}</p>
-                  
+
                 <p><strong>Postée le : </strong>{dayjs(details.post_date).format('DD MMM YYYY à HH : mm')}
-                <span><br />par : <strong style={{ color: 'green' }}>{details.nickName}</strong></span></p>
-                  
+                  <span><br />par : <strong style={{ color: 'green' }}>{details.nickName}</strong></span></p>
+
                 <p><strong>Catégorie : </strong>{details.category}</p>
                 <p><strong>Prix : <em style={{ color: 'red' }}>{details.price} €</em></strong></p>
               </aside>
@@ -79,7 +114,7 @@ function Products() {
                 <img src={item.img} alt={item.title} />
                 <p><strong>Prix : </strong><em>{item.price} €</em></p>
 
-                <a onClick={() => { detailItem(item.id) }} > +  de détails</a>
+                <a onClick={(e) => { detailItem(e, item.id) }} >+ de détails</a>
 
               </article>
             )

@@ -26,11 +26,13 @@ function Admin() {
 
 
   const recupUsers = async () => {
+
     try {
       const res = await fetch(`${url}/api/v1/load_users`);
       const resJson = await res.json();
 
       setDatas(data => [...data, ...resJson[0]]);
+      return
 
     } catch (error) {
       console.log(error);
@@ -68,6 +70,7 @@ function Admin() {
         <h1>Panneau d'administration</h1>
         <hr />
         <Msg msg={msg} />
+        
         <article>
           {
             datasUsers?.length && datasUsers.map((item) => {
