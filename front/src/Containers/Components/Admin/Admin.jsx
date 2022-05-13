@@ -12,14 +12,14 @@ function Admin() {
   const [datasUsers, setDatas] = useState([]);
   const [msg, setMsg] = useState('');
 
-  
+
   // *****************************************
   // Récupératrion Utilisateurs **************
-  
+
   useEffect(() => {
     recupUsers()
   }, []);
-  
+
   const recupUsers = async () => {
     try {
       const res = await fetch(`${url}/api/v1/load_users`);
@@ -34,14 +34,17 @@ function Admin() {
 
   // *****************************************
   // Suppression Item ************************
-  
-  const pokeItem = async (id) => {
+
+  const pokeItem = async (e, id) => {
+
+    e.preventDefault();
+
     try {
       const res = await fetch(`${url}/api/v1/admin/delete/${id}`);
       const resJson = await res.json();
 
       setMsg(res.data.msg);
-      
+
     } catch (error) {
       console.log(error);
     };
@@ -54,6 +57,7 @@ function Admin() {
       <section>
         <h1>Panneau d'administration</h1>
         <hr />
+        <Msg msg={msg} />
         <article>
           {
             datasUsers?.length && datasUsers.map((item) => {
@@ -72,28 +76,25 @@ function Admin() {
       </section>
 
 
-      
+
       <section>
         <article>
-          <Msg msg={msg} />
           {
             datasItems?.length && datasItems.map((item) => {
               return (
                 <aside key={item.id} >
 
                   <p><strong>{item.title}</strong></p>
-       
+
                   <p>{item.lastname}</p>
-           
+
                   <p>{dayjs(item.post_date).format('DD MMM YYYY à HH : mm')}</p>
-               
+
                   <p><strong>Prix de vente : </strong><strong style={{ color: 'red' }}>{item.price} €</strong></p>
-                
+
                   <Link to={`/edit/${item.id}`}>mettre à jour l'annonce</Link>
 
-                  <form onSubmit={() => { pokeItem(item.id) }}>
-                    <button type='submit' >supprimer</button>
-                  </form>
+                  <button onClick={(e) => { pokeItem(e, item.id) }}>supprimer</button>
 
                 </aside>
               )
