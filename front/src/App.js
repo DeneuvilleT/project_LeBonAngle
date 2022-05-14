@@ -1,3 +1,4 @@
+import PageValidate from './Containers/Components/PageValidate/PageValidate';
 import Header from './Containers/Pages/Header/Header';
 import Products from './Containers/Components/Products/Products';
 import Form from './Containers/Components/Form/Form';
@@ -17,6 +18,7 @@ function App() {
           <Route path='/form' element={<Form />} />
           <Route path='/admin' element={<Admin />} />
           <Route path='/edit/:id' element={<Edit />} />
+          <Route path='/validate' element={<PageValidate />} />
         </Routes>
       </GlobalContextProvider>
     </>

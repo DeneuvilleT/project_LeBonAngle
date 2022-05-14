@@ -8,6 +8,10 @@
    justify-content: flex-end;
 }
 
+.header h2{
+   margin-right: 25%;
+}
+
 .header a,
 .header p {
    color: white;

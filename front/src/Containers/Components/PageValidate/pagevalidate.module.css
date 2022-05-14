@@ -1,0 +1,70 @@
+.pagevalidate {
+   display: flex;
+   flex-direction: row;
+   width: 100%;
+   justify-content: space-between;
+   margin: 0;
+   padding: 0;
+   box-sizing: content-box;
+   background-color: rgb(235, 235, 235);
+}
+
+.pagevalidate h1 {
+   font-size: 1.8rem;
+   margin: 0 auto;
+}
+
+.pagevalidate h1+hr {
+   margin-top: 30px;
+   width: 80%;
+}
+
+/* Block 1 */
+.pagevalidate section:nth-child(1) {
+   display: flex;
+   flex-direction: column;
+   flex-wrap: wrap;
+   align-items: baseline;
+   margin: 45px 20px 45px 0;
+   width: 20%;
+   min-width: 400px;
+   border-right: 1px gray groove;
+}
+
+.pagevalidate section:nth-child(1) article svg {
+   display: flex;
+   flex-direction: column;
+   flex-wrap: wrap;
+   justify-content: center;
+   box-sizing: content-box;
+
+   /* Width */
+   width: 60%;
+   margin: 320px auto;
+   margin-right: -20px;
+   padding: 0;
+}
+
+
+/* Block 2 */
+.pagevalidate section:nth-child(2) {
+   display: flex;
+   flex-direction: column;
+   flex-wrap: wrap;
+   align-items: center;
+   justify-content: center;
+   width: 80%;
+   text-align: center;
+   margin: 45px 0px;
+}
+
+.pagevalidate a {
+   text-decoration: underline;
+   color: blue;
+   text-align: right;
+}
+
+.pagevalidate a:hover {
+   color: crimson;
+   cursor: pointer;
+}

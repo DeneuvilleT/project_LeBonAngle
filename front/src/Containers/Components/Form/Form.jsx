@@ -1,27 +1,26 @@
-import React, { Fragment, useContext, useRef, useState } from 'react';
-import { GlobalContext } from '../../../Context/GlobalContext';
+import React, { Fragment, useContext, useRef, useState, useEffect } from 'react';
 import { ReactComponent as Logo } from '../../../../src/svg/logo.svg';
+import { GlobalContext } from '../../../Context/GlobalContext';
 import styles from '../Form/form.module.css';
-import axios from 'axios';
 import Msg from '../Msg/Msg';
+import axios from 'axios';
 
 
 function Form() {
 
-  const { url } = useContext(GlobalContext);
-  const { idUser } = useContext(GlobalContext);
-  const { logUser } = useContext(GlobalContext);
-  const { datasCat } = useContext(GlobalContext);
-  const { connected } = useContext(GlobalContext);
-  const { recupProducts } = useContext(GlobalContext);
+  const { url, idUser, logUser, msg, setMsg,
+  datasCat, recupProducts, connected } = useContext(GlobalContext);
 
   const [imgFile, setImgFile] = useState('');
-
-  const [msg, setMsg] = useState('');
 
   const formRefPost = useRef();
   const formRefUser = useRef();
 
+  useEffect(() => {
+    setMsg('');
+  }, []);
+
+// *******************************************
   // Ajout d'une image ***********************
 
   const pick = async () => {
@@ -42,6 +41,9 @@ function Form() {
   };
 
 
+
+
+// *******************************************
   // Ajout d'un article **********************
 
   const title = useRef();
@@ -86,6 +88,8 @@ function Form() {
   };
 
 
+  
+// *********************************************
   // Ajout d'un utilisateur ********************
 
   const firstname = useRef();
@@ -159,7 +163,6 @@ function Form() {
               <input type="text" placeholder='ville' ref={city} />
               <input type="text" placeholder='code postal' ref={code_zip} />
               <input type="submit" value='Envoyer' />
-
             </form>
           </>
         ) : (

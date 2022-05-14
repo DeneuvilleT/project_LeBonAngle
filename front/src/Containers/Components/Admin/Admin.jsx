@@ -7,12 +7,9 @@ import Msg from '../Msg/Msg';
 
 function Admin() {
 
-  const { url } = useContext(GlobalContext);
-  const { msg } = useContext(GlobalContext);
-  const { setMsg } = useContext(GlobalContext);
-  const { datasItems } = useContext(GlobalContext);
-  const { setItems } = useContext(GlobalContext);
-  const { recupProducts } = useContext(GlobalContext);
+  const { url, msg, setMsg, setItems,
+  datasItems, recupProducts } = useContext(GlobalContext);
+
   const [datasUsers, setDatas] = useState([]);
 
 
@@ -23,7 +20,9 @@ function Admin() {
     recupUsers()
   }, []);
 
-
+  useEffect(() => {
+    setMsg('');
+  }, []);
 
   const recupUsers = async () => {
 
@@ -74,13 +73,14 @@ function Admin() {
         <article>
           {
             datasUsers?.length && datasUsers.map((item) => {
-              return (
+              return (  
                 <aside key={item.id} >
+                  <p><strong>{item.email}</strong></p>
                   <p><strong>{item.lastname}</strong></p>
                   <p>{item.firstname}</p>
                   <p>{item.adress}</p>
-                  <p>{item.city}</p>
-                  <p><strong>{item.code_zip}</strong></p>
+                  <p>{item.city} {item.code_zip}</p>
+                  <p><strong></strong></p>
                 </aside>
               )
             })
@@ -89,7 +89,7 @@ function Admin() {
       </section>
 
 
-
+ 
       <section>
         <article>
           {

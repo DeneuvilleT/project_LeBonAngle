@@ -1,22 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { GlobalContext } from '../../../Context/GlobalContext';
 import { ReactComponent as Logo } from '../../../../src/svg/logo.svg';
+import { GlobalContext } from '../../../Context/GlobalContext';
 import Msg from '../Msg/Msg';
 import dayjs from 'dayjs';
-import css from '../Products/products.module.css';
+import styles from '../Products/products.module.css';
 
 function Products() {
 
-  const { url } = useContext(GlobalContext);
+  const { url, msg, setMsg } = useContext(GlobalContext);
+
   const [datasItems, setItems] = useState([]);
   const [details, setDetail] = useState({});
-  const [msg, setMsg] = useState('');
 
-  
+
   useEffect(() => {
-    recupProducts()
-  }, [])
+    recupProducts();
+  }, []);
 
+  useEffect(() => {
+    setMsg('');
+  }, []);
 
 
   const recupProducts = async () => {
@@ -73,13 +76,16 @@ function Products() {
 
   return (
 
-    <main className={css.products} role='main'>
+    <main className={styles.products} role='main'>
 
       <section >
+
         <h1>Home page</h1>
         <hr />
         <Msg msg={msg} />
+
         <article>
+
           {!details.title ? (
             <><Logo /></>
           ) : (
@@ -98,6 +104,7 @@ function Products() {
             </>
           )}
         </article>
+
       </section>
 
 

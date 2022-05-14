@@ -1,27 +1,32 @@
 import React, { useContext, useEffect, useRef, useState, Fragment } from 'react';
 import { ReactComponent as Logo } from '../../../../src/svg/logo.svg';
-import { useParams } from 'react-router-dom';
 import { GlobalContext } from '../../../Context/GlobalContext';
+import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import Msg from '../Msg/Msg';
 import axios from 'axios';
 import styles from '../Edit/edit.module.css';
-import Msg from '../Msg/Msg';
 
 function Edit() {
 
    const { id } = useParams();
-   const { url } = useContext(GlobalContext);
-   const { datasCat } = useContext(GlobalContext);
+   const { url, datasCat } = useContext(GlobalContext);
+
    const [detailItem, setDetail] = useState({});
    const [msg, setMsg] = useState('');
-
-   
-   // *****************************************
-   // Initialisation **************************
 
    useEffect(() => {
       dataItem()
    }, []);
+
+
+   useEffect(() => {
+      setMsg('');
+   }, []);
+   
+   // *****************************************
+   // Initialisation **************************
+
    
    const dataItem = async () => {
       try {

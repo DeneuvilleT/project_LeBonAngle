@@ -1,8 +1,6 @@
 import User from "../models/user.model.js";
 import bcrypt from 'bcrypt';
 import sendM from '../lib/mailing.js';
-import express from 'express';
-import router from "../routes/index.js";
 
 
 export const users = async (req, res, next) => {
@@ -109,7 +107,7 @@ export const validateUser = async (req, res, next) => {
 
       req.session.isLogged = true;
       console.log(req.session);
-      res.redirect("http://localhost:3000/");
+      res.redirect("http://localhost:3000/validate/");
       res.json({
          msg: "Votre email a été validé.",
          isLogged: true,
