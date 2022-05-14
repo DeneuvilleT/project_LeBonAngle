@@ -10,13 +10,12 @@ import styles from '../Edit/edit.module.css';
 function Edit() {
 
    const { id } = useParams();
-   const { url, datasCat } = useContext(GlobalContext);
+   const { url, datasCat, msg, setMsg } = useContext(GlobalContext);
 
    const [detailItem, setDetail] = useState({});
-   const [msg, setMsg] = useState('');
 
    useEffect(() => {
-      dataItem()
+      dataItem();
    }, []);
 
 

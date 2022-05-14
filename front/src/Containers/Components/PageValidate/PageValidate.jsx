@@ -16,11 +16,14 @@ function PageValidate() {
       <> <main role='main' className={styles.pagevalidate}>
 
          <section>
+
             <h1>Formulaire</h1>
             <hr />
+            
             <article>
                <Logo />
             </article>
+
          </section>
 
          <section>

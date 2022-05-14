@@ -16,6 +16,8 @@ export const users = async (req, res, next) => {
    };
 };
 
+
+
 export const postUser = async (req, res, next) => {
 
    const hashed = await bcrypt.hash(req.body.password, 10);
@@ -47,6 +49,7 @@ export const postUser = async (req, res, next) => {
 };
 
 
+
 export const sendMail = async (req, res, next) => {
 
    const mail = req.body.email
@@ -64,7 +67,6 @@ export const sendMail = async (req, res, next) => {
       console.log(error);
    }
 }
-
 
 
 
@@ -100,6 +102,7 @@ export const login = async (req, res, next) => {
       console.log(error);
    };
 }
+
 
 
 export const validateUser = async (req, res, next) => {

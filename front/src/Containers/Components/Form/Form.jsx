@@ -7,12 +7,15 @@ import axios from 'axios';
 
 
 function Form() {
-
+  
   const { url, idUser, logUser, msg, setMsg,
   datasCat, recupProducts, connected } = useContext(GlobalContext);
-
+    
   const [imgFile, setImgFile] = useState('');
-
+    
+  const firstname = useRef();
+  const password = useRef();
+  
   const formRefPost = useRef();
   const formRefUser = useRef();
 
@@ -20,6 +23,7 @@ function Form() {
     setMsg('');
   }, []);
 
+  
 // *******************************************
   // Ajout d'une image ***********************
 
@@ -92,17 +96,15 @@ function Form() {
 // *********************************************
   // Ajout d'un utilisateur ********************
 
-  const firstname = useRef();
   const lastname = useRef();
+  const nickname = useRef();
+  const pass = useRef();
   const email = useRef();
-  const password = useRef();
   const adress = useRef();
   const city = useRef();
   const code_zip = useRef();
 
-  const nickname = useRef();
-  const pass = useRef();
-
+  
   const newUser = async (e) => {
 
     e.preventDefault();

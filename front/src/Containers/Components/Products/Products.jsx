@@ -22,6 +22,9 @@ function Products() {
   }, []);
 
 
+// *******************************************
+  // Initialisation **************************
+
   const recupProducts = async () => {
 
     setItems([]);
@@ -37,7 +40,9 @@ function Products() {
     };
   };
 
-
+  
+// *******************************************
+  // Details *********************************
 
   const detailItem = async (e, id) => {
 
