@@ -75,7 +75,6 @@ const GlobalContextProvider = (props) => {
             setMsg(res.data.msg);
             setId(res.data.id);
             setConnected(true);
-
             return
 
          } else {
@@ -92,7 +91,7 @@ const GlobalContextProvider = (props) => {
 
 
    return (
-      <GlobalContext.Provider value={{ url, setUrl, connected, setConnected, datasCat, setDatas, datasItems, setItems, recupProducts, msg, setMsg, idUser, logUser }}>
+      <GlobalContext.Provider value={{ url, setUrl, connected, setConnected, datasCat, setDatas, datasItems, setItems, recupProducts, msg, setMsg, idUser, logUser, setId }}>
          {props.children}
       </GlobalContext.Provider>
    );

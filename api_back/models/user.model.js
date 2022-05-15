@@ -23,6 +23,12 @@ class User {
       const [query] = await pool.execute(sql, [firstname]);
       return [query];
    };
+
+   static async logMail(mail) {
+      const sql = "SELECT * FROM user WHERE user.email = ?";
+      const [query] = await pool.execute(sql, [mail]);
+      return [query];
+   };
 };
 
 export default User;

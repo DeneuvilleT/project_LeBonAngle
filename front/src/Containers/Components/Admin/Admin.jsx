@@ -17,11 +17,11 @@ function Admin() {
   // Récupératrion Utilisateurs **************
 
   useEffect(() => {
-    recupUsers()
-  }, []);
-
-  useEffect(() => {
     setMsg('');
+  }, []);
+  
+  useEffect(() => {
+    recupUsers()
   }, []);
 
   const recupUsers = async () => {

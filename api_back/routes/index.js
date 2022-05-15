@@ -1,6 +1,7 @@
 import express from 'express';
 import { home, loadOneItem, postItem, pickPicture, updateItem, deleteItem, category } from '../controllers/product.controller.js';
-import { users, postUser, login, sendMail, validateUser } from '../controllers/user.controller.js';
+import { users, postUser, login, sendMail, validateUser
+} from '../controllers/user.controller.js';
 
 
 
@@ -21,6 +22,6 @@ router.post("/form/api/v1/product/add_user", postUser);
 router.put("/api/v1/edit/update/:id", updateItem);
 
 
-router.get("/api/v1/validate_user", validateUser)
+router.get("/api/v1/validate_user/:email", validateUser);
 router.post("/form/api/v1/sendMail", sendMail);
 export default router;

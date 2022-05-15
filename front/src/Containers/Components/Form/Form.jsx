@@ -59,6 +59,7 @@ function Form() {
 
 
   const newPost = async (e) => {
+    
     e.preventDefault();
 
     try {
@@ -104,7 +105,7 @@ function Form() {
   const city = useRef();
   const code_zip = useRef();
 
-  
+
   const newUser = async (e) => {
 
     e.preventDefault();
@@ -125,7 +126,8 @@ function Form() {
       if (res.data.status === 200) {
         setMsg(res.data.msg);
         await axios.post(`${url}/form/api/v1/sendMail`, {
-          email: email.current.value
+          email: email.current.value,
+          firstname: nickname.current.value,
         });
 
         formRefUser.current.reset();

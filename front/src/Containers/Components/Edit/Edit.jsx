@@ -28,6 +28,7 @@ function Edit() {
 
    
    const dataItem = async () => {
+      
       try {
          const res = await fetch(`${url}/api/v1/product/${id}`);
          const resJson = await res.json();

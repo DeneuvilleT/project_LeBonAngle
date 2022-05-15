@@ -4,12 +4,15 @@ import sendM from '../lib/mailing.js';
 
 
 export const users = async (req, res, next) => {
+
    try {
       const item = await User.getAllUsers();
       if (!item[0].length) {
          throw Error;
+         
       } else {
-         res.status(200).send(item)
+         res.status(200).send(item);
+
       };
    } catch (error) {
       console.log(error);
@@ -30,7 +33,7 @@ export const postUser = async (req, res, next) => {
       adress: req.body.adress,
       city: req.body.city,
       code_zip: req.body.code_zip,
-   }
+   };
 
    const query = "INSERT INTO `user`(`lastname`, `firstname`, `email` ,`password`, `adress`, `city`, `code_zip`) VALUES (?,?,?,?,?,?,?)";
 
@@ -50,27 +53,8 @@ export const postUser = async (req, res, next) => {
 
 
 
-export const sendMail = async (req, res, next) => {
-
-   const mail = req.body.email
-
-   try {
-
-      sendM(mail, "Bienvenue", "Bonjour ... vous !",
-         `<a href='http://localhost:9000/api/v1/validate_user'>Welcome to the "LeBonAngle"</a>`)
-
-      res.json({
-         status: 200,
-      });
-
-   } catch (error) {
-      console.log(error);
-   }
-}
-
-
-
 export const login = async (req, res, next) => {
+
    try {
       const userBeLogin = await User.login(req.body.firstname);
 
@@ -79,6 +63,7 @@ export const login = async (req, res, next) => {
             status: 404,
             msg: "Utilisateur inccorect.",
          });
+
       } else {
 
          // Check password ******************************************************************
@@ -89,34 +74,60 @@ export const login = async (req, res, next) => {
                status: 200,
                id: userBeLogin[0][0].id,
                msg: 'Authentification réussi !',
-            })
+            });
+
          } else {
             res.json({
                status: 400,
                msg: 'Mot de passe incorrect.',
-            })
-         }
+            });
+
+         };
       };
 
    } catch (error) {
       console.log(error);
    };
-}
+};
 
 
 
-export const validateUser = async (req, res, next) => {
+export const sendMail = async (req, res, next) => {
+
+   const email = req.body.email
+
    try {
 
-      req.session.isLogged = true;
-      console.log(req.session);
-      res.redirect("http://localhost:3000/validate/");
+      sendM(email, "Bienvenue", "Bonjour ... vous !",
+         `<a href="http://localhost:3000/validate/${email}" >Lien</a>`);
+
       res.json({
-         msg: "Votre email a été validé.",
-         isLogged: true,
-      })
+         status: 200,
+      });
 
    } catch (error) {
       console.log(error);
    };
-}
+}; 
+
+
+
+export const validateUser = async (req, res, next) => {
+
+   const email = req.params.email;
+
+   try {
+      const recupDatauser = await User.logMail(email);
+      if (!recupDatauser[0].length) {
+         throw Error;
+
+      } else {
+         req.session.isLogged = true;
+         res.status(200).send(recupDatauser);
+
+      };
+
+   } catch (error) {
+      console.log(error);
+   };
+};

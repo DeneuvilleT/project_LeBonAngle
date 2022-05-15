@@ -9,6 +9,10 @@ import GlobalContextProvider from './Context/GlobalContext';
 
 
 function App() {
+
+  
+
+
   return (
     <>
       <GlobalContextProvider>
@@ -18,7 +22,7 @@ function App() {
           <Route path='/form' element={<Form />} />
           <Route path='/admin' element={<Admin />} />
           <Route path='/edit/:id' element={<Edit />} />
-          <Route path='/validate' element={<PageValidate />} />
+          <Route path='/validate/:email' element={<PageValidate />} />
         </Routes>
       </GlobalContextProvider>
     </>
