@@ -76,8 +76,8 @@ function Admin() {
               return (  
                 <aside key={item.id} >
                   <p><strong>{item.email}</strong></p>
-                  <p><strong>{item.lastname}</strong></p>
-                  <p>{item.firstname}</p>
+                  <p><strong>{item.firstname}</strong></p>
+                  <p>{item.lastname}</p>
                   <p>{item.adress}</p>
                   <p>{item.city} {item.code_zip}</p>
 

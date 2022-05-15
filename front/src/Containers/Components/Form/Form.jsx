@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useRef, useState, useEffect } from 'react';
+import React, { Fragment, useContext, useRef, useState } from 'react';
 import { ReactComponent as Logo } from '../../../../src/svg/logo.svg';
 import { GlobalContext } from '../../../Context/GlobalContext';
 import styles from '../Form/form.module.css';
@@ -9,7 +9,7 @@ import axios from 'axios';
 function Form() {
   
   const { url, idUser, logUser, msg, setMsg,
-  datasCat, recupProducts, connected } = useContext(GlobalContext);
+  datasCat, recupProducts, connected, admin } = useContext(GlobalContext);
     
   const [imgFile, setImgFile] = useState('');
     
@@ -145,7 +145,7 @@ function Form() {
 
   return (
     <main role='main' className={styles.form}>
-
+      {console.log(admin)}
       <section>
         
         <h1>Annonce</h1>

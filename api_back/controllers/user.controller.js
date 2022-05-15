@@ -74,8 +74,10 @@ export const loginUser = async (req, res, next) => {
                status: 200,
                id: userBeLogin[0][0].id,
                activate: userBeLogin[0][0].activate,
+               email: userBeLogin[0][0].email,
                msg: 'Authentification réussi !',
             });
+            console.log(res)
 
          } else {
             res.json({

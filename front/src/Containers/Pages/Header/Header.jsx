@@ -7,7 +7,7 @@ import styles from '../Header/header.module.css';
 
 function Header() {
 
-  const { connected, setConnected } = useContext(GlobalContext);
+  const { connected, setConnected, admin } = useContext(GlobalContext);
 
 
   const logout = () => {
@@ -15,22 +15,25 @@ function Header() {
   };
 
   return (
-    <div className={styles.header}>
+    <header className={styles.header}>
 
       <h2>Lebonangle</h2>
       <Link to={'/'}>Accueil</Link>
+
       {
         connected ? <Link to={'/form'}>Publier une annonce</Link> : <></>
       }
       
-      <Link to={'/admin'}>Admin</Link>
-
+      {
+        admin ? <Link to={'/admin'}>Administration</Link> : <Link to={'/admin'}>Mon profil</Link>
+      }
+      
       {
         connected ? <Link to={'/form'} onClick={() => { logout() }}>Se déconnecter</Link> :
           <Link to={'/form'} >Se connecter</Link>
       }
 
-    </div>
+    </header>
   )
 }
 
