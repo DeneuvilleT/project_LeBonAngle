@@ -12,7 +12,13 @@ function Msg({ msg }) {
             msg === "Votre annonce a bien été posté !" && <p className='goodMsg' >{msg}</p>
          }
          {
+            msg === "Compte validé" && <p className='goodMsg' >{msg}</p>
+         }
+         {
             msg === "Votre email a été validé." && <p className='goodMsg' >{msg}</p>
+         }
+         {
+            msg === "Email vérifié et compte activé !" && <p className='goodMsg' >{msg}</p>
          }
          {
             msg === "Authentification réussi !" && <p className='goodMsg' >{msg}</p>
@@ -40,6 +46,15 @@ function Msg({ msg }) {
          }
          {
             msg === "Mot de passe incorrect." && <p className='badMsg' >{msg}</p>
+         }
+         {
+            msg === "En cours de validation" && <p className='badMsg' >{msg}</p>
+         }
+         {
+            msg === "Votre email n'a pas encore été vérifié." && <p className='badMsg' >{msg}</p>
+         }
+         {
+            msg === "Erreur lors de la verification de votre email." && <p className='badMsg' >{msg}</p>
          }
       </>
 

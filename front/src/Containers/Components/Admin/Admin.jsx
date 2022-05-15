@@ -80,7 +80,11 @@ function Admin() {
                   <p>{item.firstname}</p>
                   <p>{item.adress}</p>
                   <p>{item.city} {item.code_zip}</p>
-                  <p><strong></strong></p>
+
+                  {
+                    item.activate === 0 ? <Msg msg={"En cours de validation"}/> : <Msg msg={"Compte validé"} />
+                  } 
+
                 </aside>
               )
             })

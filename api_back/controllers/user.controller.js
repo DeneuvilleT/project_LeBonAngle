@@ -3,13 +3,13 @@ import bcrypt from 'bcrypt';
 import sendM from '../lib/mailing.js';
 
 
-export const users = async (req, res, next) => {
+export const loadUsers = async (req, res, next) => {
 
    try {
       const item = await User.getAllUsers();
       if (!item[0].length) {
          throw Error;
-         
+
       } else {
          res.status(200).send(item);
 
@@ -53,7 +53,7 @@ export const postUser = async (req, res, next) => {
 
 
 
-export const login = async (req, res, next) => {
+export const loginUser = async (req, res, next) => {
 
    try {
       const userBeLogin = await User.login(req.body.firstname);
@@ -73,6 +73,7 @@ export const login = async (req, res, next) => {
             res.json({
                status: 200,
                id: userBeLogin[0][0].id,
+               activate: userBeLogin[0][0].activate,
                msg: 'Authentification réussi !',
             });
 
@@ -99,7 +100,7 @@ export const sendMail = async (req, res, next) => {
    try {
 
       sendM(email, "Bienvenue", "Bonjour ... vous !",
-         `<a href="http://localhost:3000/validate/${email}" >Lien</a>`);
+      `<a href="http://localhost:3000/validate/${email}" >Lien</a>`);
 
       res.json({
          status: 200,
@@ -108,7 +109,7 @@ export const sendMail = async (req, res, next) => {
    } catch (error) {
       console.log(error);
    };
-}; 
+};
 
 
 

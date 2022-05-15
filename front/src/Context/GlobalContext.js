@@ -70,28 +70,34 @@ const GlobalContextProvider = (props) => {
 
          });
 
-         if (res.data.status === 200) {
+         if (res.data.status === 200 && res.data.activate === 1) {
 
             setMsg(res.data.msg);
             setId(res.data.id);
             setConnected(true);
             return
 
-         } else {
-            setMsg(res.data.msg);
+         } else if (res.data.status === 200 && res.data.activate === 0) {
+
+            setMsg("Votre email n'a pas encore été vérifié.");
             return
 
+         } else {
+            setMsg(res.data.msg);
+            return 
          };
-
+         
       } catch (error) {
          console.log(error);
       };
    };
 
-
-
+ 
    return (
-      <GlobalContext.Provider value={{ url, setUrl, connected, setConnected, datasCat, setDatas, datasItems, setItems, recupProducts, msg, setMsg, idUser, logUser, setId }}>
+      <GlobalContext.Provider value={{
+         url, setUrl, connected, setConnected, datasCat, setDatas,
+         datasItems, setItems, recupProducts, msg, setMsg, idUser, logUser, setId
+      }}>
          {props.children}
       </GlobalContext.Provider>
    );

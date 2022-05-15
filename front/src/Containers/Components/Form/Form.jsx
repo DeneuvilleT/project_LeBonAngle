@@ -19,10 +19,6 @@ function Form() {
   const formRefPost = useRef();
   const formRefUser = useRef();
 
-  useEffect(() => {
-    setMsg('');
-  }, []);
-
   
 // *******************************************
   // Ajout d'une image ***********************
@@ -77,8 +73,8 @@ function Form() {
 
       if (res.data.status === 200) {
         recupProducts();
-        formRefPost.current.reset();
         setMsg(res.data.msg);
+        formRefPost.current.reset();
         return
 
       } else {
@@ -151,7 +147,8 @@ function Form() {
     <main role='main' className={styles.form}>
 
       <section>
-        <h1>Formulaire</h1>
+        
+        <h1>Annonce</h1>
         <hr />
 
         {!connected ? (

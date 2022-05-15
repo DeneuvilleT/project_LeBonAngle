@@ -15,9 +15,11 @@ code {
 }
 
 .goodMsg {
+  text-align: center;
   color: rgb(16, 128, 16);
   background-color: rgb(236, 193, 2);
   font-weight: 600;
+  margin-top: 30px !important;
   border-radius: 20px;
   padding: 10px;
 }
@@ -26,6 +28,7 @@ code {
   color: rgb(187, 0, 0);
   background-color: rgb(236, 193, 2);
   font-weight: 600;
+  margin-top: 30px !important;
   border-radius: 20px;
   padding: 10px;
 }

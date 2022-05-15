@@ -85,7 +85,7 @@ function Products() {
 
       <section >
 
-        <h1>Home page</h1>
+        <h1>LeBonAngle</h1>
         <hr />
         <Msg msg={msg} />
 

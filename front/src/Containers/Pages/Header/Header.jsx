@@ -18,8 +18,11 @@ function Header() {
     <div className={styles.header}>
 
       <h2>Lebonangle</h2>
-      <Link to={'/'}>Home</Link>
-      <Link to={'/form'}>Formulaire</Link>
+      <Link to={'/'}>Accueil</Link>
+      {
+        connected ? <Link to={'/form'}>Publier une annonce</Link> : <></>
+      }
+      
       <Link to={'/admin'}>Admin</Link>
 
       {
