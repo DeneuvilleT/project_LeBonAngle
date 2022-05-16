@@ -69,6 +69,14 @@ const GlobalContextProvider = (props) => {
             password: pass.current.value,
          });
 
+         if (res.data.status === 200 && res.data.email === "thomac.windows@hotmail.fr") {
+            setMsg(res.data.msg);
+            setId(res.data.id);
+            setConnected(true);
+            setAdmin(true);
+            return
+         } 
+
          if (res.data.status === 200 && res.data.activate === 1) {
             setMsg(res.data.msg);
             setId(res.data.id);
@@ -77,12 +85,6 @@ const GlobalContextProvider = (props) => {
 
          } else if (res.data.activate === 0) {
             setMsg("Votre email n'a pas encore été vérifié.");
-            return
-
-         } else if (res.data.status === 200 && res.data.email === "thomac.windows@hotmail.fr") {
-            setConnected(true);
-            console.log(admin);
-            setAdmin(true);
             return
 
          } else {
@@ -99,7 +101,7 @@ const GlobalContextProvider = (props) => {
  
    return (
       <GlobalContext.Provider value={{
-         url, setUrl, connected, setConnected, datasCat, setDatas, admin,
+         url, setUrl, connected, setConnected, datasCat, setDatas, admin, setAdmin,
          datasItems, setItems, recupProducts, msg, setMsg, idUser, logUser, setId
       }}>
          {props.children}

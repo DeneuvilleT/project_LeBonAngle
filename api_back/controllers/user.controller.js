@@ -21,6 +21,26 @@ export const loadUsers = async (req, res, next) => {
 
 
 
+export const loadOneUser = async (req, res, next) => {
+
+   const id = req.params.id;
+
+   try {
+      const item = await User.getOneUser(id);
+      if (!item[0].length) {
+         throw Error;
+
+      } else {
+         res.status(200).send(item);
+
+      };
+   } catch (error) {
+      console.log(error);
+   };
+};
+
+
+
 export const postUser = async (req, res, next) => {
 
    const hashed = await bcrypt.hash(req.body.password, 10);
@@ -77,7 +97,6 @@ export const loginUser = async (req, res, next) => {
                email: userBeLogin[0][0].email,
                msg: 'Authentification réussi !',
             });
-            console.log(res)
 
          } else {
             res.json({

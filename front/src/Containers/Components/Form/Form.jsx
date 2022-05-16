@@ -145,7 +145,7 @@ function Form() {
 
   return (
     <main role='main' className={styles.form}>
-      {console.log(admin)}
+
       <section>
         
         <h1>Annonce</h1>

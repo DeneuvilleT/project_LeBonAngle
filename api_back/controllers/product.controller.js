@@ -18,7 +18,6 @@ export const home = async (req, res, next) => {
 
 
 
-
 export const category = async (req, res, next) => {
    try {
       const items = await Product.getAllCategory();
@@ -34,7 +33,6 @@ export const category = async (req, res, next) => {
       console.log(error);
    };
 };
-
 
 
 
@@ -62,7 +60,6 @@ export const pickPicture = async (req, res, next) => {
       url: req.files.image.name,
    });
 };
-
 
 
 
@@ -94,7 +91,6 @@ export const postItem = async (req, res, next) => {
 
 
 
-
 export const loadOneItem = async (req, res, next) => {
    const id = req.params.id;
    try {
@@ -112,6 +108,24 @@ export const loadOneItem = async (req, res, next) => {
    };
 };
 
+
+
+export const loadOneItemByUser = async (req, res, next) => {
+   const id = req.params.id;
+   try {
+      const item = await Product.getOneProductByUser(id);
+      if (!item[0].length) {
+         throw Error;
+
+      } else {
+         res.status(200).send(item);
+
+      };
+
+   } catch (error) {
+      console.log(error);
+   };
+};
 
 
 
@@ -140,7 +154,6 @@ export const updateItem = async (req, res, next) => {
       console.log(error);
    };
 };
-
 
 
 

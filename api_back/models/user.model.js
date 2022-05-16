@@ -13,6 +13,14 @@ class User {
       return [query];
    };
 
+   static async getOneUser(id) {
+      const sql = `
+      SELECT * FROM user WHERE user.id = ?`;
+
+      const [query] = await pool.execute(sql, [id]);
+      return [query];
+   };
+
    static async addSaveItem(sql, datas) {
       const [query] = await pool.execute(sql, [...Object.values(datas)]);
       return query;

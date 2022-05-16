@@ -7,8 +7,8 @@ import Msg from '../Msg/Msg';
 
 function Admin() {
 
-  const { url, msg, setMsg, setItems,
-  datasItems, recupProducts } = useContext(GlobalContext);
+  const { url, msg, setMsg, setItems, connected, idUser,
+    datasItems, recupProducts, admin } = useContext(GlobalContext);
 
   const [datasUsers, setDatas] = useState([]);
 
@@ -19,19 +19,41 @@ function Admin() {
   useEffect(() => {
     setMsg('');
   }, []);
-  
+
   useEffect(() => {
     recupUsers()
+  }, []);
+
+  useEffect(() => {
+    if (!admin) { recupProductByUser()}
   }, []);
 
   const recupUsers = async () => {
 
     try {
-      const res = await fetch(`${url}/api/v1/load_users`);
+      const res = admin ?
+        await fetch(`${url}/api/v1/load_users`) :
+        await fetch(`${url}/api/v1/load_user/${idUser}`);
+
       const resJson = await res.json();
 
       setDatas(data => [...data, ...resJson[0]]);
       return
+
+    } catch (error) {
+      console.log(error);
+    };
+  };
+
+
+  const recupProductByUser = async () => {
+
+    setItems([]);
+
+    try {
+      const res = await fetch(`${url}/api/v1/product_user/${idUser}`);
+      const resJson = await res.json();
+      setItems(data => [...data, ...resJson[0]]);
 
     } catch (error) {
       console.log(error);
@@ -54,7 +76,7 @@ function Admin() {
       const elemToDeleted = datasItems.findIndex(item => item.id === id);
       setItems(item => item.splice(elemToDeleted));
 
-      recupProducts();
+      admin ? recupProducts() : recupProductByUser(); 
 
     } catch (error) {
       console.log(error);
@@ -69,11 +91,11 @@ function Admin() {
         <h1>Panneau d'administration</h1>
         <hr />
         <Msg msg={msg} />
-        
+
         <article>
           {
             datasUsers?.length && datasUsers.map((item) => {
-              return (  
+              return (
                 <aside key={item.id} >
                   <p><strong>{item.email}</strong></p>
                   <p><strong>{item.firstname}</strong></p>
@@ -82,8 +104,8 @@ function Admin() {
                   <p>{item.city} {item.code_zip}</p>
 
                   {
-                    item.activate === 0 ? <Msg msg={"En cours de validation"}/> : <Msg msg={"Compte validé"} />
-                  } 
+                    item.activate === 0 ? <Msg msg={"En cours de validation"} /> : <Msg msg={"Compte validé"} />
+                  }
 
                 </aside>
               )
@@ -93,7 +115,7 @@ function Admin() {
       </section>
 
 
- 
+
       <section>
         <article>
           {
@@ -119,6 +141,7 @@ function Admin() {
           }
         </article>
       </section>
+
     </main>
   );
 };

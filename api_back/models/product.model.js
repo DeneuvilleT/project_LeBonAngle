@@ -41,6 +41,16 @@ class Product {
       return [query];
    };
 
+   static async getOneProductByUser(dataId) {
+      const sql = `
+      SELECT product.id, title, description, post_date, quantity, price, img, firstname, lastname, name
+      FROM product INNER JOIN user ON product.id_user = user.id
+      INNER JOIN category ON product.id_category = category.id WHERE user.id = ?`;
+
+      const [query] = await pool.execute(sql, [dataId]);
+      return [query];
+   };
+
    static async addSaveItem(sql, datas) {
       const [query] = await pool.execute(sql, [...Object.values(datas)]);
       return query;

@@ -18,6 +18,7 @@
    margin-right: 50px;
    text-decoration: none;
    font-weight: bold;
+   cursor: pointer;
 }
 
 .header p {

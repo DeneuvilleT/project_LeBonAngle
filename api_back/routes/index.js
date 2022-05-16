@@ -1,9 +1,9 @@
 import express from 'express';
 import {
-   home, loadOneItem, postItem, pickPicture, updateItem, deleteItem, category
+   home, loadOneItem, loadOneItemByUser, postItem, pickPicture, updateItem, deleteItem, category
 } from '../controllers/product.controller.js';
 import {
-   loadUsers, postUser, loginUser, sendMail, validateUser
+   loadUsers, loadOneUser, postUser, loginUser, sendMail, validateUser
 } from '../controllers/user.controller.js';
 
 
@@ -12,9 +12,11 @@ const router = express.Router();
 
 router.get("/api/v1/load_products", home);
 router.get("/api/v1/load_users", loadUsers);
+router.get("/api/v1/load_user/:id", loadOneUser);
 router.get("/api/v1/load_category", category);
 
 router.get("/api/v1/product/:id", loadOneItem);
+router.get("/api/v1/product_user/:id", loadOneItemByUser);
 router.get("/api/v1/admin/", home);
 router.get("/api/v1/admin/delete/:id", deleteItem);
 

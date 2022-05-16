@@ -7,11 +7,12 @@ import styles from '../Header/header.module.css';
 
 function Header() {
 
-  const { connected, setConnected, admin } = useContext(GlobalContext);
+  const { connected, setConnected, admin, setAdmin } = useContext(GlobalContext);
 
 
   const logout = () => {
     setConnected(false);
+    setAdmin(false);
   };
 
   return (
@@ -25,11 +26,15 @@ function Header() {
       }
       
       {
-        admin ? <Link to={'/admin'}>Administration</Link> : <Link to={'/admin'}>Mon profil</Link>
+        admin ? <Link to={'/admin'}>Administration</Link> : <></>
+      }
+
+      {
+        connected ? <Link to={'/admin'}>Mon profil</Link> : <></>
       }
       
       {
-        connected ? <Link to={'/form'} onClick={() => { logout() }}>Se déconnecter</Link> :
+        connected ? <a onClick={() => { logout() }}>Se déconnecter</a> :
           <Link to={'/form'} >Se connecter</Link>
       }
 
