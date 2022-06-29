@@ -90,7 +90,7 @@ export const loginUser = async (req, res, next) => {
          const compPass = await bcrypt.compare(req.body.password, userBeLogin[0][0].password);
 
          if (compPass) {
-            res.json({
+            return res.json({
                status: 200,
                id: userBeLogin[0][0].id,
                activate: userBeLogin[0][0].activate,
@@ -99,7 +99,7 @@ export const loginUser = async (req, res, next) => {
             });
 
          } else {
-            res.json({
+            return res.json({
                status: 400,
                msg: 'Mot de passe incorrect.',
             });

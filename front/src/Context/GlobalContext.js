@@ -7,7 +7,7 @@ const GlobalContextProvider = (props) => {
 
    const [admin, setAdmin] = useState(false);
 
-   const [url, setUrl] = useState("http://localhost:9000");
+   const [url, setUrl] = useState("http://localhost:9001");
    const [connected, setConnected] = useState(false);
    const [datasCat, setDatas] = useState([]);
    const [datasItems, setItems] = useState([]);

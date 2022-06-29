@@ -9,10 +9,7 @@ import GlobalContextProvider from './Context/GlobalContext';
 
 
 function App() {
-
   
-
-
   return (
     <>
       <GlobalContextProvider>
